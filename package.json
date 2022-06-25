@@ -24,7 +24,9 @@
     "test:coverage": "react-scripts test --coverage --watchAll=false",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
-    "eject": "react-scripts eject"
+    "lint:staged": "lint-staged",
+    "eject": "react-scripts eject",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -88,6 +90,8 @@
     "autoprefixer": "^10.4.7",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.0.3",
     "postcss": "^8.4.14",
     "prettier": "2.7.1",
     "prettier-plugin-tailwindcss": "^0.1.11",
