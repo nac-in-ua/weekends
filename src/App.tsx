@@ -1,7 +1,5 @@
 import Header from './components/Header/Header'
-import Description from './components/Main/Description'
-import Footer from './components/Main/Footer'
-import Greetings from './components/Main/Greetings'
+import { Description, Footer, Greetings } from './components/Main'
 import Timer from './components/Main/Timer'
 
 function App() {
