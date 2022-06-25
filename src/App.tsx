@@ -1,9 +1,7 @@
-import React from 'react'
-
 function App() {
   return (
     <div className="App">
-      <h1 className="text-5xl font-thin text-center mt-24">
+      <h1 className="mt-24 text-center text-5xl font-thin">
         Weekends countdown
       </h1>
     </div>
