@@ -5,11 +5,7 @@ type PanelProps = {
   size?: string
 }
 
-Panel.defaultProps = {
-  size: 'sm',
-}
-
-function Panel({ children, size }: PanelProps) {
+function Panel({ children, size = 'sm' }: PanelProps) {
   return (
     <div
       className={`max-w-${size} mx-auto rounded-xl bg-white p-4 shadow-md dark:bg-zinc-900`}
