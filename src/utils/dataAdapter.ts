@@ -4,11 +4,13 @@ import {
   readFromLocalstorage,
 } from './localstorageAdapter'
 
+type Theme = 'light' | 'dark'
+
 interface IGetDefaultSettings {
   greetingsText: string
   day: number
   hour: number
-  theme: string
+  theme: Theme
   useSystemTheme: boolean
   isFirstLoad: boolean
 }

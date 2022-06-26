@@ -12,10 +12,10 @@ describe('settings', () => {
       hour: 18,
     }
     expect(getTimerData(friday)).toEqual({
-      days: 5,
-      hours: 18,
-      minutes: 0,
-      seconds: 0,
+      day: 5,
+      hour: 18,
+      minute: 0,
+      second: 0,
     })
   })
 

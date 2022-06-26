@@ -2,11 +2,13 @@ import React, { useReducer, useMemo, ReactNode } from 'react'
 import { loadSettings, writeSettings } from '../utils/dataAdapter'
 import { getSystemTheme } from '../utils/settings'
 
+type Theme = 'light' | 'dark'
+
 interface IState {
   greetingsText: string
   day: number
   hour: number
-  theme: string
+  theme: Theme
   useSystemTheme: boolean
   isFirstLoad: boolean
 }
@@ -17,8 +19,6 @@ interface ISettingsPayload {
   hour: number
   useSystemTheme: boolean
 }
-
-type Theme = 'light' | 'dark'
 
 type Action =
   | { type: 'set'; payload: ISettingsPayload }

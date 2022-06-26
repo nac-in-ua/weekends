@@ -10,23 +10,16 @@ interface IDEFAULT_FRIDAY {
   second: number
 }
 
+type Theme = 'light' | 'dark'
+
 interface IGetDefaultSettings {
   greetingsText: string
   day: number
   hour: number
-  theme: string
+  theme: Theme
   useSystemTheme: boolean
   isFirstLoad: boolean
 }
-
-interface IGetTimerData {
-  days: number
-  hours: number
-  minutes: number
-  seconds: number
-}
-
-type SystemTheme = 'dark' | 'light'
 
 const DEFAULT_FRIDAY: IDEFAULT_FRIDAY = {
   day: 5,
@@ -35,7 +28,7 @@ const DEFAULT_FRIDAY: IDEFAULT_FRIDAY = {
   second: 0,
 }
 
-const DEFAULT_THEME: string = 'light'
+const DEFAULT_THEME: Theme = 'light'
 
 const getDefaultSettings = (): IGetDefaultSettings => ({
   greetingsText: 'Have a beer!',
@@ -46,19 +39,19 @@ const getDefaultSettings = (): IGetDefaultSettings => ({
   isFirstLoad: true,
 })
 
-const getTimerData = (friday: IFriday): IGetTimerData => ({
-  days: friday.day,
-  hours: friday.hour,
-  minutes: DEFAULT_FRIDAY.minute,
-  seconds: DEFAULT_FRIDAY.second,
+const getTimerData = (friday: IFriday): IDEFAULT_FRIDAY => ({
+  day: friday.day,
+  hour: friday.hour,
+  minute: DEFAULT_FRIDAY.minute,
+  second: DEFAULT_FRIDAY.second,
 })
 
-const getSystemTheme = (): SystemTheme =>
+const getSystemTheme = (): Theme =>
   window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
     ? 'dark'
     : 'light'
 
-const applyTheme = (theme: SystemTheme): void => {
+const applyTheme = (theme: Theme): void => {
   const root = document.documentElement
   if (theme === 'dark') {
     root.classList.add('dark')
