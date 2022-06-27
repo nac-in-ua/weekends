@@ -23,6 +23,7 @@ interface ISettingsPayload {
 type Action =
   | { type: 'set'; payload: ISettingsPayload }
   | { type: 'setTheme'; payload: Theme }
+  | { type: 'setFirstLoad'; payload: boolean }
 
 type Dispatch = (action: Action) => void
 
@@ -44,6 +45,11 @@ const settingsReducer = (state: IState, action: Action) => {
       const newSettings = action.payload
       writeSettings({ ...state, ...newSettings })
       return { ...state, ...newSettings }
+    }
+    case 'setFirstLoad': {
+      const isFirstLoad = action.payload
+      writeSettings({ ...state, isFirstLoad })
+      return { ...state, isFirstLoad }
     }
     case 'setTheme': {
       const newSettings = { ...state, theme: action.payload }
