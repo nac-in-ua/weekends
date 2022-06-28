@@ -73,7 +73,7 @@ describe('SettingsModal', () => {
     document.body.removeChild(modalRoot)
   })
 
-  it('should handle Apply with new settings', async () => {
+  it('should handle Apply with new settings', () => {
     const modalRoot = document.createElement('div')
     modalRoot.setAttribute('id', 'modal-root')
     document.body.appendChild(modalRoot)
@@ -87,20 +87,46 @@ describe('SettingsModal', () => {
     )
 
     const greetingsTextInput = screen.getByPlaceholderText('Have a beer')
-    await userEvent.clear(greetingsTextInput)
-    await userEvent.type(greetingsTextInput, 'new greeting')
-    await userEvent.click(screen.getByText('Friday'))
-    await userEvent.click(screen.getByText('Saturday'))
-    await userEvent.click(screen.getByText('18:00'))
-    await userEvent.click(screen.getByText('17:00'))
-    await userEvent.click(screen.getByRole('checkbox'))
-    await userEvent.click(screen.getByRole('button', { name: 'Apply' }))
+    userEvent.clear(greetingsTextInput)
+    userEvent.type(greetingsTextInput, 'new greeting ')
+    userEvent.click(screen.getByText('Friday'))
+    userEvent.click(screen.getByText('Saturday'))
+    userEvent.click(screen.getByText('18:00'))
+    userEvent.click(screen.getByText('17:00'))
+    userEvent.click(screen.getByRole('checkbox'))
+    userEvent.click(screen.getByRole('button', { name: 'Apply' }))
     expect(handleApply).toHaveBeenCalledWith({
-      greetingsText: 'new greeting',
+      greetingsText: 'new greeting ',
       day: 6,
       hour: 17,
       useSystemTheme: true,
     })
+    document.body.removeChild(modalRoot)
+  })
+
+  it('should not handle Apply when text is empty', () => {
+    const modalRoot = document.createElement('div')
+    modalRoot.setAttribute('id', 'modal-root')
+    document.body.appendChild(modalRoot)
+    render(
+      <SettingsModal
+        settings={settings}
+        title="sample title"
+        onApply={handleApply}
+        onCancel={handleCancel}
+      />
+    )
+
+    const greetingsTextInput = screen.getByPlaceholderText('Have a beer')
+    userEvent.clear(greetingsTextInput)
+    userEvent.type(greetingsTextInput, ' ')
+    userEvent.click(screen.getByText('Friday'))
+    userEvent.click(screen.getByText('Saturday'))
+    userEvent.click(screen.getByText('18:00'))
+    userEvent.click(screen.getByText('17:00'))
+    userEvent.click(screen.getByRole('checkbox'))
+    userEvent.click(screen.getByRole('button', { name: 'Apply' }))
+    expect(handleApply).not.toHaveBeenCalled()
     document.body.removeChild(modalRoot)
   })
 })

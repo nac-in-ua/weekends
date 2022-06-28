@@ -4,40 +4,51 @@ import {
   readFromLocalstorage,
 } from '../localstorageAdapter'
 
-jest.mock('../localstorageAdapter', () => {
-  const originalModule = jest.requireActual('../localstorageAdapter')
-  return {
-    __esModule: true,
-    ...originalModule,
-    writeToLocalstorage: jest.fn(),
-    readFromLocalstorage: jest.fn(() =>
-      JSON.stringify({
-        day: 2,
-        hour: 3,
-        greetingsText: '',
-        theme: '',
-        useSystemTheme: false,
-        isFirstLoad: true,
-      })
-    ),
-  }
-})
+jest.mock('../localstorageAdapter')
 
-const mockedWriteToLocalstorage = jest.mocked(writeToLocalstorage)
-const mockedReadFromLocalstorage = jest.mocked(readFromLocalstorage)
+type Theme = 'light' | 'dark'
+interface IGetDefaultSettings {
+  greetingsText: string
+  day: number
+  hour: number
+  theme: Theme
+  useSystemTheme: boolean
+  isFirstLoad: boolean
+}
 
 describe('dataAdapter', () => {
+  const handler = jest.fn()
+  const mockedWriteToLocalstorage = jest.mocked(writeToLocalstorage)
+  const mockedReadFromLocalstorage = jest.mocked(readFromLocalstorage)
+
   beforeEach(() => {
+    mockedWriteToLocalstorage.mockImplementation(() => handler)
+    mockedReadFromLocalstorage.mockImplementation(() =>
+      btoa(
+        JSON.stringify({
+          day: 2,
+          hour: 3,
+          greetingsText: 'sample',
+          theme: 'light',
+          useSystemTheme: false,
+          isFirstLoad: true,
+        })
+      )
+    )
+  })
+
+  afterEach(() => {
+    handler.mockClear()
     mockedWriteToLocalstorage.mockClear()
     mockedReadFromLocalstorage.mockClear()
   })
 
   it('should write settings', () => {
-    const data = {
+    const data: IGetDefaultSettings = {
+      greetingsText: 'sample',
       day: 2,
       hour: 3,
-      greetingsText: '',
-      theme: '',
+      theme: 'dark',
       useSystemTheme: true,
       isFirstLoad: false,
     }
@@ -48,14 +59,14 @@ describe('dataAdapter', () => {
   it('should load settings', () => {
     const settings = loadSettings()
     expect(settings).toMatchObject({
-      day: 5,
-      hour: 18,
-      greetingsText: 'Have a beer!',
+      day: 2,
+      hour: 3,
+      greetingsText: 'sample',
       theme: 'light',
       useSystemTheme: false,
       isFirstLoad: true,
     })
-    expect(mockedWriteToLocalstorage).toHaveBeenCalledTimes(1)
+    expect(mockedWriteToLocalstorage).not.toHaveBeenCalled()
     expect(mockedReadFromLocalstorage).toHaveBeenCalledTimes(1)
   })
 

@@ -3,6 +3,7 @@
 exports[`Digit should render digit 1`] = `
 <div
   class="flex h-20 items-center justify-center text-5xl font-thin"
+  data-testid="digit"
 >
   12
 </div>

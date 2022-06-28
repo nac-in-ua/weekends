@@ -55,6 +55,24 @@ describe('Modal', () => {
     document.body.removeChild(modalRoot)
   })
 
+  it('should handle backdrop click', async () => {
+    const modalRoot = document.createElement('div')
+    modalRoot.setAttribute('id', 'modal-root')
+    document.body.appendChild(modalRoot)
+    render(
+      <Modal
+        title="sample title"
+        onApply={applyHandler}
+        onCancel={cancelHandler}
+      >
+        <div>sample content</div>
+      </Modal>
+    )
+    userEvent.click(screen.getByTestId('backdrop'))
+    expect(cancelHandler).toHaveBeenCalled()
+    document.body.removeChild(modalRoot)
+  })
+
   it('should handle Apply button click', async () => {
     const modalRoot = document.createElement('div')
     modalRoot.setAttribute('id', 'modal-root')

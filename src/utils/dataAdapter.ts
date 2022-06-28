@@ -16,12 +16,12 @@ interface IGetDefaultSettings {
 }
 
 const loadSettings = (): IGetDefaultSettings => {
-  const localStorData = readFromLocalstorage('settings')
-  if (!localStorData) {
+  const localStorageData = readFromLocalstorage('settings')
+  if (!localStorageData) {
     writeSettings(getDefaultSettings())
     return getDefaultSettings()
   }
-  return JSON.parse(atob(localStorData))
+  return JSON.parse(atob(localStorageData))
 }
 
 const writeSettings = (settings: IGetDefaultSettings): void => {

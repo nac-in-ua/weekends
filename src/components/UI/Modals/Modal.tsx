@@ -42,6 +42,7 @@ function Modal({
   return ReactDOM.createPortal(
     <div className="relative z-10" role="dialog">
       <div
+        data-testid="backdrop"
         className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-sm"
         onClick={handleBackdropClick}
       >

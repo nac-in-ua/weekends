@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Timer should render 1`] = `
+<div>
+  <div
+    class="mt-20 flex flex-col items-center"
+  >
+    <h2
+      class="text-center text-3xl font-thin uppercase"
+    >
+      Time left to weekends
+    </h2>
+    <div
+      class="mt-10 flex flex-row justify-around"
+    >
+      <div
+        class="flex w-24 flex-col"
+      >
+        <div
+          class="flex h-8 items-center justify-center text-lg font-thin uppercase"
+        >
+          days
+        </div>
+        <div
+          class="flex h-20 items-center justify-center text-5xl font-thin"
+          data-testid="digit"
+        >
+          3
+        </div>
+      </div>
+      <div
+        class="mt-8 flex items-center justify-center pb-2 text-5xl"
+      >
+        :
+      </div>
+      <div
+        class="flex w-24 flex-col"
+      >
+        <div
+          class="flex h-8 items-center justify-center text-lg font-thin uppercase"
+        >
+          hours
+        </div>
+        <div
+          class="flex h-20 items-center justify-center text-5xl font-thin"
+          data-testid="digit"
+        >
+          23
+        </div>
+      </div>
+      <div
+        class="mt-8 flex items-center justify-center pb-2 text-5xl"
+      >
+        :
+      </div>
+      <div
+        class="flex w-24 flex-col"
+      >
+        <div
+          class="flex h-8 items-center justify-center text-lg font-thin uppercase"
+        >
+          minutes
+        </div>
+        <div
+          class="flex h-20 items-center justify-center text-5xl font-thin"
+          data-testid="digit"
+        >
+          47
+        </div>
+      </div>
+      <div
+        class="mt-8 flex items-center justify-center pb-2 text-5xl"
+      >
+        :
+      </div>
+      <div
+        class="flex w-24 flex-col"
+      >
+        <div
+          class="flex h-8 items-center justify-center text-lg font-thin uppercase"
+        >
+          seconds
+        </div>
+        <div
+          class="flex h-20 items-center justify-center text-5xl font-thin"
+          data-testid="digit"
+        >
+          49
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
