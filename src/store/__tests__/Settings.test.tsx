@@ -238,4 +238,65 @@ describe('Settings context provider', () => {
       '{"hour":18,"day":6,"greetingsText":"Hello","theme":"dark","useSystemTheme":true,"isFirstLoad":false}'
     )
   })
+
+  it('should change first load settings', () => {
+    function WrappedComponentNew() {
+      const settings = useSettingsData()
+      const dispatch = useSettingsDispatch()
+      return (
+        <div
+          data-testid="component"
+          onClick={() =>
+            dispatch({
+              type: 'setFirstLoad',
+              payload: false,
+            })
+          }
+        >
+          {JSON.stringify(settings)}
+        </div>
+      )
+    }
+    mockedLoadSettings.mockImplementation(() => ({
+      hour: 10,
+      day: 3,
+      greetingsText: 'sample',
+      theme: 'dark',
+      useSystemTheme: false,
+      isFirstLoad: true,
+    }))
+
+    render(
+      <SettingsContextProvider>
+        <WrappedComponentNew />
+      </SettingsContextProvider>
+    )
+    const component = screen.getByTestId('component')
+    userEvent.click(component)
+    expect(component).toHaveTextContent(
+      '{"hour":10,"day":3,"greetingsText":"sample","theme":"dark","useSystemTheme":false,"isFirstLoad":false}'
+    )
+  })
+
+  it('should throw error if no context provider provided', () => {
+    function WrappedComponentNew() {
+      const settings = useSettingsData()
+      const dispatch = useSettingsDispatch()
+      expect(settings).toThrowError()
+      return (
+        <div
+          data-testid="component"
+          onClick={() =>
+            dispatch({
+              type: 'setFirstLoad',
+              payload: false,
+            })
+          }
+        >
+          {JSON.stringify(settings)}
+        </div>
+      )
+    }
+    expect(() => render(<WrappedComponentNew />)).toThrowError()
+  })
 })
