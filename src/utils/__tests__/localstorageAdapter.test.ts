@@ -68,4 +68,10 @@ describe('localstorage adapter', () => {
     )
     expect(console.error).toHaveBeenCalledTimes(1)
   })
+
+  it('should read empty settings from local storage', () => {
+    getItemSpy.mockImplementation(() => undefined)
+    const data = readFromLocalstorage('settings')
+    expect(data).toBe('')
+  })
 })

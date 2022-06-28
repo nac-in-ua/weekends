@@ -11,6 +11,7 @@ exports[`Modal should center buttons 1`] = `
     >
       <div
         class="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-sm"
+        data-testid="backdrop"
       >
         <div
           class="max-w-xl mx-auto rounded-xl bg-white p-4 shadow-md dark:bg-zinc-900"
@@ -50,6 +51,7 @@ exports[`Modal should center heading 1`] = `
     >
       <div
         class="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-sm"
+        data-testid="backdrop"
       >
         <div
           class="max-w-xl mx-auto rounded-xl bg-white p-4 shadow-md dark:bg-zinc-900"
