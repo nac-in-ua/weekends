@@ -3,3 +3,6 @@ build
 public
 /coverage
 .vscode
+
+/playwright-report
+/test-results

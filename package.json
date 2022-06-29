@@ -28,8 +28,20 @@
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "lint:staged": "lint-staged",
-    "eject": "react-scripts eject",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test:e2e": "npx playwright test",
+    "test:e2e:debug": "PWDEBUG=1 npx playwright test",
+    "test:e2e:debug:console": "PWDEBUG=console npx playwright test",
+    "test:e2e:debug:api": "PDEBUG=pw:api npx playwright test",
+    "test:e2e:debug:webserver": "DEBUG=pw:webserver npx playwright test",
+    "test:e2e:update-screenshots": "npx playwright test --update-snapshots",
+    "test:e2e:report": "npx playwright show-report",
+    "test:e2e:chromium": "npx playwright test --project=chromium",
+    "test:e2e:firefox": "npx playwright test --project=firefox",
+    "test:e2e:webkit": "npx playwright test --project=webkit",
+    "test:e2e:mobile-android": "npx playwright test --project='Mobile Chrome'",
+    "test:e2e:mobile-safari": "npx playwright test --project='Mobile Safari'",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -68,7 +80,8 @@
       "!<rootDir>/src/reportWebVitals.ts",
       "!<rootDir>/src/index.tsx",
       "!<rootDir>/src/App.tsx",
-      "!<rootDir>/src/vitals.js"
+      "!<rootDir>/src/vitals.js",
+      "!<rootDir>/src/e2e/*.**"
     ],
     "coverageThreshold": {
       "global": {
@@ -81,6 +94,10 @@
     "coverageReporters": [
       "text",
       "cobertura"
+    ],
+    "testMatch": [
+      "<rootDir>/src/(?!e2e)*/**/__tests__/**/*.{js,jsx,ts,tsx}",
+      "<rootDir>/src/(?!e2e)*/**/*.{spec,test}.{js,jsx,ts,tsx}"
     ]
   },
   "browserslist": {
@@ -96,6 +113,7 @@
     ]
   },
   "devDependencies": {
+    "@playwright/test": "^1.23.0",
     "autoprefixer": "^10.4.7",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
@@ -104,6 +122,7 @@
     "postcss": "^8.4.14",
     "prettier": "2.7.1",
     "prettier-plugin-tailwindcss": "^0.1.11",
+    "sinon": "^14.0.0",
     "tailwindcss": "^3.1.4"
   },
   "lint-staged": {
