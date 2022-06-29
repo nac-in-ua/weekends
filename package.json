@@ -93,6 +93,10 @@
     "coverageReporters": [
       "text",
       "cobertura"
+    ],
+    "testMatch": [
+      "<rootDir>/src/(?!e2e)*/**/__tests__/**/*.{js,jsx,ts,tsx}",
+      "<rootDir>/src/(?!e2e)*/**/*.{spec,test}.{js,jsx,ts,tsx}"
     ]
   },
   "browserslist": {
