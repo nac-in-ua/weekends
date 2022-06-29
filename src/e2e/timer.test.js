@@ -6,7 +6,7 @@ test.describe('Application Theme', () => {
   test.beforeEach(async ({ page, context }) => {
     // Install Sinon in all the pages in the context
     await context.addInitScript({
-      path: path.join(__dirname, '..', './node_modules/sinon/pkg/sinon.js'),
+      path: path.join(__dirname, '../../', './node_modules/sinon/pkg/sinon.js'),
     })
     // Auto-enable sinon right away
     await context.addInitScript(() => {
