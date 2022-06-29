@@ -5,7 +5,7 @@ import { devices } from '@playwright/test'
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-// require('dotenv').config();
+require('dotenv').config()
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -103,9 +103,8 @@ const config: PlaywrightTestConfig = {
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'npm run start',
-    // port: 3000,
-    url: process.env.DEV_SERVER_URL,
+    command: 'npm run start --mode=production',
+    port: Number(process.env.PORT),
     timeout: 120 * 1000,
     reuseExistingServer: !process.env.CI,
   },
