@@ -80,7 +80,8 @@
       "!<rootDir>/src/reportWebVitals.ts",
       "!<rootDir>/src/index.tsx",
       "!<rootDir>/src/App.tsx",
-      "!<rootDir>/src/vitals.js"
+      "!<rootDir>/src/vitals.js",
+      "!<rootDir>/src/e2e/*.**"
     ],
     "coverageThreshold": {
       "global": {
