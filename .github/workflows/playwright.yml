@@ -27,6 +27,9 @@ jobs:
         env:
           SITE_URL: ${{ github.event.deployment_status.target_url }}
 
+      - name: Logs
+        run: ls
+
       - uses: actions/upload-artifact@v3
         if: always()
         with:
