@@ -37,7 +37,7 @@ test.describe('Application Theme', () => {
       await page.locator('button:has-text("Apply")').click()
     })
 
-    await page.evaluate(() => window.__clock.tick(1000))
+    await page.evaluate(() => window.__clock.tickAsync(1000))
 
     await test.step('should have 4 digit blocks', async () => {
       await expect(page.locator('//*[@id="root"]/div/main/div/div')).toHaveText(
@@ -62,7 +62,7 @@ test.describe('Application Theme', () => {
       await page.locator('button:has-text("Apply")').click()
     })
 
-    await page.evaluate(() => window.__clock.tick(1000))
+    await page.evaluate(() => window.__clock.tickAsync(1000))
 
     await test.step('should have 3 digit blocks', async () => {
       await expect(page.locator('//*[@id="root"]/div/main/div/div')).toHaveText(
@@ -87,7 +87,7 @@ test.describe('Application Theme', () => {
       await page.locator('button:has-text("Apply")').click()
     })
 
-    await page.evaluate(() => window.__clock.tick(1000))
+    await page.evaluate(() => window.__clock.tickAsync(1000))
 
     await test.step('should have 2 digit blocks', async () => {
       await expect(page.locator('//*[@id="root"]/div/main/div/div')).toHaveText(
@@ -112,14 +112,14 @@ test.describe('Application Theme', () => {
       await page.locator('button:has-text("Apply")').click()
     })
 
-    await page.evaluate(() => window.__clock.tick(1000))
+    await page.evaluate(() => window.__clock.tickAsync(1000))
 
     await test.step('should decrement digit blocks', async () => {
       await test.step('decrements seconds each second', async () => {
         await expect(
           page.locator('//*[@id="root"]/div/main/div/div')
         ).toHaveText('minutes28:seconds37')
-        await page.evaluate(() => window.__clock.tick(1000))
+        await page.evaluate(() => window.__clock.tickAsync(1000))
         await expect(
           page.locator('//*[@id="root"]/div/main/div/div')
         ).toHaveText('minutes28:seconds36')
@@ -127,7 +127,7 @@ test.describe('Application Theme', () => {
 
       await test.step('decrements minute', async () => {
         for (let i = 36; i >= 0; i--) {
-          await page.evaluate(() => window.__clock.tick(1000))
+          await page.evaluate(() => window.__clock.tickAsync(1000))
         }
         await expect(
           page.locator('//*[@id="root"]/div/main/div/div')
@@ -136,7 +136,7 @@ test.describe('Application Theme', () => {
 
       await test.step('hides minute when it reaches zero value', async () => {
         for (let i = 27 * 60; i >= 0; i--) {
-          await page.evaluate(() => window.__clock.tick(1000))
+          await page.evaluate(() => window.__clock.tickAsync(1000))
         }
         await expect(
           page.locator('//*[@id="root"]/div/main/div/div')
@@ -165,7 +165,7 @@ test.describe('Application Theme', () => {
 
     await test.step('shows greetings text', async () => {
       for (let i = 28 * 60 + 37; i >= 0; i--) {
-        await page.evaluate(() => window.__clock.tick(1000))
+        await page.evaluate(() => window.__clock.tickAsync(1000))
       }
       await expect(page.locator('text=/have a beer/i')).toBeVisible()
     })
