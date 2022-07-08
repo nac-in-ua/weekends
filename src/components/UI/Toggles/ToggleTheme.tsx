@@ -13,6 +13,7 @@ function ToggleTheme({ isChecked, onClick }: ToggleThemeProps) {
         role="checkbox"
         aria-checked={isChecked}
         onClick={onClick}
+        data-cy="theme-toggle"
         className={`flex h-8 w-16 flex-shrink-0 cursor-pointer items-center justify-between rounded-full ${
           isChecked ? 'bg-slate-700' : 'bg-gray-200'
         }`}

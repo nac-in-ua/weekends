@@ -25,18 +25,26 @@ function Modal({
   useEffect(() => {
     const modalRoot = document.getElementById('modal-root')
     const currentEl = el.current
-    modalRoot && modalRoot.appendChild(currentEl)
+    if (modalRoot) {
+      modalRoot.appendChild(currentEl)
+    }
     return () => {
-      modalRoot && modalRoot.removeChild(currentEl)
+      if (modalRoot) {
+        modalRoot.removeChild(currentEl)
+      }
     }
   }, [])
 
   const handleButtonClick: MouseEventHandler<HTMLButtonElement> = () => {
-    onCancel && onCancel()
+    if (onCancel) {
+      onCancel()
+    }
   }
 
   const handleBackdropClick: MouseEventHandler<HTMLDivElement> = (): void => {
-    onCancel && onCancel()
+    if (onCancel) {
+      onCancel()
+    }
   }
 
   return ReactDOM.createPortal(
