@@ -7,5 +7,4 @@ export default defineConfig({
   e2e: {
     baseUrl: process.env.SITE_URL || 'http://localhost:3121',
   },
-  projectId: 'chg2fj',
 })
