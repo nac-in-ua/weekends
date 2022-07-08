@@ -29,6 +29,8 @@
     "lint:fix": "npm run lint -- --fix",
     "lint:staged": "lint-staged",
     "prepare": "husky install",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
     "test:e2e": "npx playwright test",
     "test:e2e:container": "docker run --rm --network host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:v1.23.1-focal /bin/bash -c 'npm install; npx playwright test'",
     "test:e2e:update-screenshots": "npx playwright test --update-snapshots",
@@ -49,6 +51,17 @@
       "react-app",
       "react-app/jest",
       "prettier"
+    ],
+    "overrides": [
+      {
+        "extends": [
+          "plugin:cypress/recommended",
+          "plugin:chai-friendly/recommended"
+        ],
+        "files": [
+          "cypress/**/*.js"
+        ]
+      }
     ],
     "plugins": [
       "prettier"
@@ -114,6 +127,8 @@
     "autoprefixer": "^10.4.7",
     "cypress": "^10.3.0",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-chai-friendly": "^0.7.2",
+    "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-prettier": "^4.0.0",
     "husky": "^8.0.0",
     "lint-staged": "^13.0.3",
