@@ -7,6 +7,7 @@ jobs:
     strategy:
       matrix:
         browser: ['chromium', 'firefox', 'webkit']
+        part: [1, 2, 3, 4]
     timeout-minutes: 60
     name: e2e tests
     if: ${{ github.event.deployment_status.state == 'success' }}
@@ -26,7 +27,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Playwright tests
-        run: npm run test:e2e:${{ matrix.browser }}
+        run: npm run test:e2e:${{ matrix.browser }} -- --shard ${{ matrix.part }}/4
         env:
           SITE_URL: ${{ github.event.deployment_status.target_url }}
 
