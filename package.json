@@ -31,6 +31,8 @@
     "prepare": "husky install",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
+    "cypress:run:chrome": "cypress run --browser chrome",
+    "cypress:run:firefox": "cypress run --browser firefox:dev",
     "eject": "react-scripts eject",
     "cleanup": "rm -rf coverage build"
   },
