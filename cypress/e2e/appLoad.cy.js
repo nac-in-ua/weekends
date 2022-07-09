@@ -53,15 +53,17 @@ context('Application First Load', () => {
     })
 
     it('should Apply settings', () => {
-      cy.clock(Date.UTC(2022, 6, 6, 13, 31, 22), ['Date'])
+      cy.clock(Date.UTC(2022, 6, 6, 13, 31, 22))
+      cy.tick(1000)
       cy.contains('Friday').click()
       cy.contains('Saturday').click()
       cy.contains('18:00').click()
       cy.contains('19:00').click()
       cy.contains('Apply').click()
+      cy.tick(1000)
       cy.get('[data-cy="clock"]').should(
         'have.text',
-        'days3:hours2:minutes28:seconds38'
+        'days3:hours2:minutes28:seconds36'
       )
     })
 

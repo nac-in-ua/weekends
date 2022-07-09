@@ -2,7 +2,15 @@
 
 context('Settings modal', () => {
   beforeEach(() => {
-    cy.visit('/')
+    cy.visit('/', {
+      onBeforeLoad(win) {
+        cy.stub(win, 'matchMedia')
+          .withArgs('(prefers-color-scheme: dark)')
+          .returns({
+            matches: true,
+          })
+      },
+    })
     cy.contains('Apply').click()
     cy.get('[data-cy="settings"]').click()
   })
