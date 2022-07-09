@@ -10,5 +10,5 @@ export default defineConfig({
     fixturesFolder: false,
     supportFile: false,
   },
-  video: false,
+  video: true,
 })
