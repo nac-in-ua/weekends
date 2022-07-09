@@ -16,7 +16,7 @@ jobs:
         uses: cypress-io/github-action@v4
         with:
           runTests: false
-      - run: npm run react-scripts build
+      - run: npm run build:e2e
 
       - name: Save build folder
         uses: actions/upload-artifact@v3
@@ -36,7 +36,7 @@ jobs:
         with:
           runTests: false
       
-      - run: npm run react-scripts build
+      - run: npm run build:e2e
 
       - name: Save build folder
         uses: actions/upload-artifact@v3

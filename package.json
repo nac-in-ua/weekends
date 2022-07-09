@@ -21,6 +21,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "npm run test:ci && react-scripts build",
+    "build:e2e": "npm run react-scripts build",
     "test": "react-scripts test",
     "test:unit": "react-scripts test --watchAll=false",
     "test:coverage": "npm test -- --coverage",
