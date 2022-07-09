@@ -61,10 +61,12 @@ context('Application First Load', () => {
       cy.contains('19:00').click()
       cy.contains('Apply').click()
       cy.tick(1000)
-      cy.get('[data-cy="clock"]').should(
-        'have.text',
-        'days3:hours2:minutes28:seconds36'
-      )
+      cy.get('[data-cy="clock"]')
+        .invoke('text')
+        .should((text) => {
+          // eslint-disable-next-line jest/valid-expect
+          expect(text).not.to.eq('days3:hours2:minutes28:seconds36')
+        })
     })
 
     it('Verify UI settings modal page on first load', () => {
