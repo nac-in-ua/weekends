@@ -49,7 +49,6 @@ jobs:
       - name: "UI Tests - Chrome"
         uses: cypress-io/github-action@v4
         with:
-          install: false
           start: npm start
           wait-on: "http://localhost:3121"
           wait-on-timeout: 120
