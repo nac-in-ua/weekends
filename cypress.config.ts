@@ -4,7 +4,7 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 
 export default defineConfig({
-  projectId: 'chg2fj',
+  projectId: process.env.CYPRESS_PROJECT_ID || '',
   e2e: {
     baseUrl: process.env.SITE_URL || 'http://localhost:3121',
   },
