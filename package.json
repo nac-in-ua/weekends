@@ -21,6 +21,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "npm run test:ci && react-scripts build",
+    "build:e2e": "react-scripts build",
     "test": "react-scripts test",
     "test:unit": "react-scripts test --watchAll=false",
     "test:coverage": "npm test -- --coverage",
@@ -29,26 +30,29 @@
     "lint:fix": "npm run lint -- --fix",
     "lint:staged": "lint-staged",
     "prepare": "husky install",
-    "test:e2e": "npx playwright test",
-    "test:e2e:container": "docker run --rm --network host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:v1.23.1-focal /bin/bash -c 'npm install; npx playwright test'",
-    "test:e2e:update-screenshots": "npx playwright test --update-snapshots",
-    "test:e2e:update-screenshots:container": "docker run --rm --network host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:v1.23.1-focal /bin/bash -c 'npm install; npx playwright test --update-snapshots'",
-    "test:e2e:debug": "PWDEBUG=1 npx playwright test",
-    "test:e2e:debug:console": "PWDEBUG=console npx playwright test",
-    "test:e2e:debug:api": "PDEBUG=pw:api npx playwright test",
-    "test:e2e:debug:webserver": "DEBUG=pw:webserver npx playwright test",
-    "test:e2e:report": "npx playwright show-report",
-    "test:e2e:chromium": "npm run test:e2e -- --project=chromium",
-    "test:e2e:firefox": "npm run test:e2e -- --project=firefox",
-    "test:e2e:webkit": "npm run test:e2e -- --project=webkit",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "cypress:run:chrome": "cypress run --browser chrome",
+    "cypress:run:firefox": "cypress run --browser firefox:dev",
     "eject": "react-scripts eject",
-    "cleanup": "rm -rf coverage playwright-report test-results build"
+    "cleanup": "rm -rf coverage build"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest",
       "prettier"
+    ],
+    "overrides": [
+      {
+        "extends": [
+          "plugin:cypress/recommended",
+          "plugin:chai-friendly/recommended"
+        ],
+        "files": [
+          "cypress/**/*.js"
+        ]
+      }
     ],
     "plugins": [
       "prettier"
@@ -110,9 +114,11 @@
     ]
   },
   "devDependencies": {
-    "@playwright/test": "^1.23.0",
     "autoprefixer": "^10.4.7",
+    "cypress": "^10.3.0",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-chai-friendly": "^0.7.2",
+    "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-prettier": "^4.0.0",
     "husky": "^8.0.0",
     "lint-staged": "^13.0.3",

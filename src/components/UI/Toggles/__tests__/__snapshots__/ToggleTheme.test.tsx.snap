@@ -8,6 +8,7 @@ exports[`ToggleTheme should render checked 1`] = `
     <span
       aria-checked="true"
       class="flex h-8 w-16 flex-shrink-0 cursor-pointer items-center justify-between rounded-full bg-slate-700"
+      data-cy="theme-toggle"
       role="checkbox"
     >
       <svg
@@ -56,6 +57,7 @@ exports[`ToggleTheme should render unchecked 1`] = `
     <span
       aria-checked="false"
       class="flex h-8 w-16 flex-shrink-0 cursor-pointer items-center justify-between rounded-full bg-gray-200"
+      data-cy="theme-toggle"
       role="checkbox"
     >
       <svg

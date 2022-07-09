@@ -1,0 +1,150 @@
+name: Cypress Tests
+
+on: [deployment_status]
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    container:
+      image: cypress/browsers:node16.13.0-chrome95-ff94
+      options: --user 1001
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Cypress install
+        uses: cypress-io/github-action@v4
+        with:
+          runTests: false
+      - run: npm run build:e2e
+
+      - name: Save build folder
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          if-no-files-found: error
+          path: build
+
+  install-windows:
+    runs-on: windows-2019
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Cypress install
+        uses: cypress-io/github-action@v4
+        with:
+          runTests: false
+      
+      - run: npm run build:e2e
+
+      - name: Save build folder
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          if-no-files-found: error
+          path: build
+
+  ui-chrome-tests:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    container:
+      image: cypress/browsers:node16.13.0-chrome95-ff94
+      options: --user 1001
+    needs: install
+    strategy:
+      fail-fast: false
+      matrix:
+        containers: [1, 2, 3, 4]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Download the build folders
+        uses: actions/download-artifact@v3
+        with:
+          name: build
+          path: build
+
+      - name: "UI Tests - Chrome"
+        uses: cypress-io/github-action@v4
+        with:
+          browser: chrome
+          record: true
+          parallel: true
+          group: "UI - Chrome"
+          spec: cypress/e2e/appLoad.cy.js
+          config-file: cypress.config.ts
+        env:
+          CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SITE_URL: ${{ github.event.deployment_status.target_url }}
+
+  ui-firefox-tests:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    container:
+      image: cypress/browsers:node16.13.0-chrome95-ff94
+      options: --user 1001
+    needs: install
+    strategy:
+      fail-fast: false
+      matrix:
+        containers: [1, 2, 3, 4]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Download the build folders
+        uses: actions/download-artifact@v3
+        with:
+          name: build
+          path: build
+
+      - name: "UI Tests - Firefox"
+        uses: cypress-io/github-action@v4
+        with:
+          browser: firefox
+          record: true
+          parallel: true
+          group: "UI - Firefox"
+          spec: cypress/e2e/appLoad.cy.js
+          config-file: cypress.config.ts
+        env:
+          CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SITE_URL: ${{ github.event.deployment_status.target_url }}
+
+  ui-windows-tests:
+    timeout-minutes: 40
+    runs-on: windows-2019
+    needs: install-windows
+    strategy:
+      fail-fast: false
+      matrix:
+        containers: [1, 2, 3, 4]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Download the build folders
+        uses: actions/download-artifact@v3
+        with:
+          name: build
+          path: build
+
+      - name: "UI Tests - Electron - Windows"
+        uses: cypress-io/github-action@v4
+        with:
+          record: true
+          parallel: true
+          group: "UI - Electron - Windows"
+          spec: cypress/e2e/appLoad.cy.js
+          config-file: cypress.config.ts
+        env:
+          CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SITE_URL: ${{ github.event.deployment_status.target_url }}

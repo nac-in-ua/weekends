@@ -133,6 +133,7 @@ describe('Settings context provider', () => {
         </>
       )
     }
+
     mockedLoadSettings.mockImplementation(() => ({
       day: 6,
       hour: 18,
@@ -176,6 +177,7 @@ describe('Settings context provider', () => {
         ></input>
       )
     }
+
     mockedLoadSettings.mockImplementation(() => ({
       hour: 18,
       day: 6,
@@ -218,6 +220,7 @@ describe('Settings context provider', () => {
         </div>
       )
     }
+
     mockedLoadSettings.mockImplementation(() => ({
       hour: 10,
       day: 3,
@@ -257,6 +260,7 @@ describe('Settings context provider', () => {
         </div>
       )
     }
+
     mockedLoadSettings.mockImplementation(() => ({
       hour: 10,
       day: 3,
@@ -279,6 +283,8 @@ describe('Settings context provider', () => {
   })
 
   it('should throw error if no context provider provided', () => {
+    jest.spyOn(global.console, 'error').mockImplementation(() => {})
+
     function WrappedComponentNew() {
       const settings = useSettingsData()
       const dispatch = useSettingsDispatch()
@@ -297,6 +303,7 @@ describe('Settings context provider', () => {
         </div>
       )
     }
+
     expect(() => render(<WrappedComponentNew />)).toThrowError()
   })
 })
