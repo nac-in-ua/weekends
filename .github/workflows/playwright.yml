@@ -79,7 +79,7 @@ jobs:
   test:
     strategy:
       matrix:
-        browser: ['chromium', 'firefox', 'webkit']
+        # browser: ['chromium', 'firefox', 'webkit']
         shard: [1, 2, 3, 4]
     timeout-minutes: 60
     name: 🧪 Test (${{ matrix.shard }}/${{ strategy.job-total }} }})
@@ -108,7 +108,8 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Playwright tests
-        run: npm run test:e2e:${{ matrix.browser }} -- --shard=${{ matrix.shard }}/${{ strategy.job-total }}
+        # run: npm run test:e2e:${{ matrix.browser }} -- --shard=${{ matrix.shard }}/${{ strategy.job-total }}
+        run: npm run test:e2e:chromium -- --shard=${{ matrix.shard }}/${{ strategy.job-total }}
         env:
           SITE_URL: ${{ github.event.deployment_status.target_url }}
 
