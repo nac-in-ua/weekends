@@ -3,37 +3,117 @@ name: Playwright Tests
 on: [deployment_status]
 
 jobs:
+  # install:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+
+  #     - name: Cache dependencies
+  #       uses: actions/cache@v3
+  #       id: playwright-cache
+  #       with:
+  #         path: '~/.cache/ms-playwright'
+  #         key: '${{ runner.os }}-playwright-${{ steps.playwright-version.outputs.version }}'
+  #         # As a fallback, if the Playwright version has changed, try use the
+  #         # most recently cached version. There's a good chance that at least one
+  #         # of the browser binary versions haven't been updated, so Playwright can
+  #         # skip installing that in the next step.
+  #         # Note: When falling back to an old cache, `cache-hit` (used below)
+  #         # will be `false`. This allows us to restore the potentially out of
+  #         # date cache, but still let Playwright decide if it needs to download
+  #         # new binaries or not.
+  #         restore-keys: |
+  #           ${{ runner.os }}-playwright-
+
+  #     - uses: actions/setup-node@v2
+  #       with:
+  #         node-version: '16.x'
+
+  #     - name: Install dependencies
+  #       run: npm ci
+
+  #     - name: Install Playwright Browsers
+  #       run: npx playwright install --with-deps
+
+  #     - name: Save build folder
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: build
+  #         if-no-files-found: error
+  #         path: build
+  install:
+    timeout-minutes: 60
+    name: 🔍 Install
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        id: cache-node-modules
+        with:
+          path: |
+            node_modules
+          key: modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Cache Playwright binaries
+        uses: actions/cache@v3
+        id: cache-playwright
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-
+
+      - name: Install dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        if: steps.cache-playwright.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps
+
   test:
     strategy:
       matrix:
         browser: ['chromium', 'firefox', 'webkit']
-        part: [1, 2, 3, 4]
+        shard: [1, 2, 3, 4]
     timeout-minutes: 60
-    name: e2e tests
+    name: 🧪 Test (${{ matrix.shard/${{ strategy.job-total }} }})
     if: ${{ github.event.deployment_status.state == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v2
+      - name: Cache node_modules
+        uses: actions/cache@v3
         with:
-          node-version: '16.x'
+          path: |
+            node_modules
+          key: modules-${{ hashFiles('package-lock.json') }}
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Cache Playwright
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
       - name: Run Playwright tests
-        run: npm run test:e2e:${{ matrix.browser }} -- --shard ${{ matrix.part }}/4
+        run: npm run test:e2e:${{ matrix.browser }} -- --shard=${{ matrix.shard }}/${{ strategy.job-total }}
         env:
           SITE_URL: ${{ github.event.deployment_status.target_url }}
 
       - uses: actions/upload-artifact@v3
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-${{ matrix.shard }}_${{ strategy.job-total }}
           path: playwright-report
           retention-days: 30
