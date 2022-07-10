@@ -7,9 +7,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2, 3, 4]
+        browser: ['chromium', 'firefox', 'webkit']
     timeout-minutes: 60
-    name: 🧪 Chrome (${{ matrix.shard }}/${{ strategy.job-total }})
+    name: 🧪 ${{ matrix.browser }}
     if: ${{ github.event.deployment_status.state == 'success' }}
     runs-on: ubuntu-latest
     steps:
@@ -24,8 +24,8 @@ jobs:
         id: cache-node-modules
         with:
           path: |
-            node_modules
-          key: modules-${{ hashFiles('package-lock.json') }}
+            $HOME/.npm
+          key: npm-${{ hashFiles('package-lock.json') }}
 
       - name: Cache Playwright binaries
         uses: actions/cache@v3
@@ -46,124 +46,14 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Playwright tests
-        run: npm run test:e2e:chromium -- --shard=${{ matrix.shard }}/${{ strategy.job-total }}
+        run: npm run test:e2e:${{ matrix.browser }}
         env:
           SITE_URL: ${{ github.event.deployment_status.target_url }}
 
       - uses: actions/upload-artifact@v3
         if: always()
         with:
-          name: playwright-report-chrome-${{ matrix.shard }}_${{ strategy.job-total }}
-          path: playwright-report
-          if-no-files-found: error
-          retention-days: 30
-
-  test-firefox:
-    strategy:
-      fail-fast: false
-      matrix:
-        shard: [1, 2, 3, 4]
-    timeout-minutes: 60
-    name: 🧪 Firefox (${{ matrix.shard }}/${{ strategy.job-total }})
-    if: ${{ github.event.deployment_status.state == 'success' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16.x'
-
-      - name: Cache node_modules
-        uses: actions/cache@v3
-        id: cache-node-modules
-        with:
-          path: |
-            node_modules
-          key: modules-${{ hashFiles('package-lock.json') }}
-
-      - name: Cache Playwright binaries
-        uses: actions/cache@v3
-        id: cache-playwright
-        with:
-          path: |
-            ~/.cache/ms-playwright
-          key: playwright-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            playwright-
-
-      - name: Install dependencies
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: npm ci
-
-      - name: Install Playwright Browsers
-        if: steps.cache-playwright.outputs.cache-hit != 'true'
-        run: npx playwright install --with-deps
-
-      - name: Run Playwright tests
-        run: npm run test:e2e:firefox -- --shard=${{ matrix.shard }}/${{ strategy.job-total }}
-        env:
-          SITE_URL: ${{ github.event.deployment_status.target_url }}
-
-      - uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: playwright-report-firefox-${{ matrix.shard }}_${{ strategy.job-total }}
-          path: playwright-report
-          if-no-files-found: error
-          retention-days: 30
-
-  test-webkit:
-    strategy:
-      fail-fast: false
-      matrix:
-        shard: [1, 2, 3, 4]
-    timeout-minutes: 60
-    name: 🧪 Webkit (${{ matrix.shard }}/${{ strategy.job-total }})
-    if: ${{ github.event.deployment_status.state == 'success' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16.x'
-
-      - name: Cache node_modules
-        uses: actions/cache@v3
-        id: cache-node-modules
-        with:
-          path: |
-            node_modules
-          key: modules-${{ hashFiles('package-lock.json') }}
-
-      - name: Cache Playwright binaries
-        uses: actions/cache@v3
-        id: cache-playwright
-        with:
-          path: |
-            ~/.cache/ms-playwright
-          key: playwright-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            playwright-
-
-      - name: Install dependencies
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: npm ci
-
-      - name: Install Playwright Browsers
-        if: steps.cache-playwright.outputs.cache-hit != 'true'
-        run: npx playwright install --with-deps
-
-      - name: Run Playwright tests
-        run: npm run test:e2e:webkit -- --shard=${{ matrix.shard }}/${{ strategy.job-total }}
-        env:
-          SITE_URL: ${{ github.event.deployment_status.target_url }}
-
-      - uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: playwright-report-webkit-${{ matrix.shard }}_${{ strategy.job-total }}
+          name: playwright-report-${{ matrix.browser }}
           path: playwright-report
           if-no-files-found: error
           retention-days: 30
