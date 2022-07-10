@@ -82,7 +82,7 @@ jobs:
         browser: ['chromium', 'firefox', 'webkit']
         shard: [1, 2, 3, 4]
     timeout-minutes: 60
-    name: 🧪 Test (${{ matrix.shard/${{ strategy.job-total }} }})
+    name: 🧪 Test (${{ matrix.shard }}/${{ strategy.job-total }} }})
     if: ${{ github.event.deployment_status.state == 'success' }}
     runs-on: ubuntu-latest
     steps:
