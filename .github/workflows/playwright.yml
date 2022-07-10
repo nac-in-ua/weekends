@@ -76,7 +76,7 @@ jobs:
         if: steps.cache-playwright.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps
 
-  test:
+  test-chrome:
     strategy:
       matrix:
         # browser: ['chromium', 'firefox', 'webkit']
@@ -107,6 +107,88 @@ jobs:
       - name: Run Playwright tests
         # run: npm run test:e2e:${{ matrix.browser }} -- --shard=${{ matrix.shard }}/${{ strategy.job-total }}
         run: npm run test:e2e:chromium -- --shard=${{ matrix.shard }}/${{ strategy.job-total }}
+        env:
+          SITE_URL: ${{ github.event.deployment_status.target_url }}
+
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report-${{ matrix.shard }}_${{ strategy.job-total }}
+          path: playwright-report
+          retention-days: 30
+
+test-firefox:
+    strategy:
+      matrix:
+        # browser: ['chromium', 'firefox', 'webkit']
+        shard: [1, 2, 3, 4]
+    timeout-minutes: 60
+    name: 🧪 Test (${{ matrix.shard }}/${{ strategy.job-total }} }})
+    if: ${{ github.event.deployment_status.state == 'success' }}
+    runs-on: ubuntu-latest
+    needs: install
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            node_modules
+          key: modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Cache Playwright
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
+
+      - name: Run Playwright tests
+        # run: npm run test:e2e:${{ matrix.browser }} -- --shard=${{ matrix.shard }}/${{ strategy.job-total }}
+        run: npm run test:e2e:firefox -- --shard=${{ matrix.shard }}/${{ strategy.job-total }}
+        env:
+          SITE_URL: ${{ github.event.deployment_status.target_url }}
+
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report-${{ matrix.shard }}_${{ strategy.job-total }}
+          path: playwright-report
+          retention-days: 30
+
+  test-webkit:
+    strategy:
+      matrix:
+        # browser: ['chromium', 'firefox', 'webkit']
+        shard: [1, 2, 3, 4]
+    timeout-minutes: 60
+    name: 🧪 Test (${{ matrix.shard }}/${{ strategy.job-total }} }})
+    if: ${{ github.event.deployment_status.state == 'success' }}
+    runs-on: ubuntu-latest
+    needs: install
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            node_modules
+          key: modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Cache Playwright
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
+
+      - name: Run Playwright tests
+        # run: npm run test:e2e:${{ matrix.browser }} -- --shard=${{ matrix.shard }}/${{ strategy.job-total }}
+        run: npm run test:e2e:webkit -- --shard=${{ matrix.shard }}/${{ strategy.job-total }}
         env:
           SITE_URL: ${{ github.event.deployment_status.target_url }}
 
