@@ -24,6 +24,10 @@ test.describe('Application first load', () => {
   })
 
   test('Verify application first load', async ({ page }) => {
+    await test.step('should match with screenshot', async () => {
+      await expect(page).toHaveScreenshot('appLoad.png')
+    })
+
     await test.step('should open app first load settings modal', async () => {
       await expect(page.locator('[data-testid="startup-modal"]')).toBeVisible()
     })

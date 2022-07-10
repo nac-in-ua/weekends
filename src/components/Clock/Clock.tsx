@@ -13,7 +13,7 @@ type ClockProps = {
 
 function Clock({ time }: ClockProps) {
   return (
-    <div className="mt-10 flex flex-row justify-around">
+    <div className="mt-10 flex flex-row justify-around" data-testid="clock">
       {time.days !== 0 && (
         <Digitblock label="days" digit={time.days} separator=":" />
       )}

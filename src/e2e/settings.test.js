@@ -12,6 +12,10 @@ test.describe('Settings modal', () => {
       expect(modal).toBeVisible()
     })
 
+    await test.step('should match with screenshot of settings', async () => {
+      await expect(page).toHaveScreenshot('settings.png')
+    })
+
     await test.step('should set new text is input field', async () => {
       const greetingsText = 'some beer!'
       const input = page.locator('[placeholder="Have a beer"]')

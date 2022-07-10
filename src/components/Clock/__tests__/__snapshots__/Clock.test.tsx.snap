@@ -4,6 +4,7 @@ exports[`Clock should render with all clock numbers and separators 1`] = `
 <div>
   <div
     class="mt-10 flex flex-row justify-around"
+    data-testid="clock"
   >
     <div
       class="flex w-24 flex-col"
@@ -88,6 +89,7 @@ exports[`Clock should render without days 1`] = `
 <div>
   <div
     class="mt-10 flex flex-row justify-around"
+    data-testid="clock"
   >
     <div
       class="flex w-24 flex-col"
@@ -152,6 +154,7 @@ exports[`Clock should render without days and hours 1`] = `
 <div>
   <div
     class="mt-10 flex flex-row justify-around"
+    data-testid="clock"
   >
     <div
       class="flex w-24 flex-col"
@@ -196,6 +199,7 @@ exports[`Clock should render without days, hours and minutes 1`] = `
 <div>
   <div
     class="mt-10 flex flex-row justify-around"
+    data-testid="clock"
   >
     <div
       class="flex w-24 flex-col"
