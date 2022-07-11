@@ -97,6 +97,8 @@ test.describe('Application Theme', () => {
   })
 
   test('Verify that digits logically decreases', async ({ page }) => {
+    test.setTimeout(120000)
+
     await test.step('open settings modal', async () => {
       await page.locator('svg').first().click()
     })
@@ -116,31 +118,32 @@ test.describe('Application Theme', () => {
 
     await test.step('should decrement digit blocks', async () => {
       await test.step('decrements seconds each second', async () => {
-        await expect(
-          page.locator('//*[@id="root"]/div/main/div/div')
-        ).toHaveText('minutes28:seconds37')
+        await expect(page.locator('[data-testid="clock"]')).toHaveText(
+          'minutes28:seconds37'
+        )
         await page.evaluate(() => window.__clock.tickAsync(1000))
-        await expect(
-          page.locator('//*[@id="root"]/div/main/div/div')
-        ).toHaveText('minutes28:seconds36')
+        await expect(page.locator('[data-testid="clock"]')).toHaveText(
+          'minutes28:seconds36'
+        )
       })
 
       await test.step('decrements minute', async () => {
         for (let i = 36; i >= 0; i--) {
           await page.evaluate(() => window.__clock.tickAsync(1000))
         }
-        await expect(
-          page.locator('//*[@id="root"]/div/main/div/div')
-        ).toHaveText('minutes27:seconds59')
+        await page.evaluate(() => window.__clock.tickAsync(1000))
+        await expect(page.locator('[data-testid="clock"]')).toHaveText(
+          'minutes27:seconds58'
+        )
       })
 
       await test.step('hides minute when it reaches zero value', async () => {
         for (let i = 27 * 60; i >= 0; i--) {
           await page.evaluate(() => window.__clock.tickAsync(1000))
         }
-        await expect(
-          page.locator('//*[@id="root"]/div/main/div/div')
-        ).toHaveText('seconds58')
+        await expect(page.locator('[data-testid="clock"]')).toHaveText(
+          'seconds57'
+        )
       })
     })
   })
@@ -148,6 +151,8 @@ test.describe('Application Theme', () => {
   test('Verify that Greetings text is displayed if countdown is over', async ({
     page,
   }) => {
+    test.setTimeout(120000)
+
     await test.step('open settings modal', async () => {
       await page.locator('svg').first().click()
     })
