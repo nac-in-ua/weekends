@@ -87,15 +87,15 @@ test.describe('Settings modal', () => {
 
     await test.step('should select hour from dropdown', async () => {
       await page.locator('text=00:00').click()
-      expect(page.locator('text=00:00')).toBeVisible()
+      await expect(page.locator('text=00:00')).toBeVisible()
 
       await page.locator('text=00:00').click()
       await page.locator('text=00:00').nth(1).click()
-      expect(page.locator('text=00:00')).toBeVisible()
+      await expect(page.locator('text=00:00')).toBeVisible()
 
       await page.locator('text=00:00').click()
       await page.locator('text=23:00').click()
-      expect(page.locator('text=23:00')).toBeVisible()
+      await expect(page.locator('text=23:00')).toBeVisible()
     })
 
     await test.step('should change switcher position', async () => {
@@ -103,9 +103,9 @@ test.describe('Settings modal', () => {
         .locator('[data-testid="settings-modal"]')
         .locator('role=checkbox')
       await switcher.click()
-      expect(switcher).toBeChecked()
+      await expect(switcher).toBeChecked()
       await switcher.click()
-      expect(switcher).not.toBeChecked()
+      await expect(switcher).not.toBeChecked()
     })
 
     await test.step('should close modal on Apply click', async () => {
