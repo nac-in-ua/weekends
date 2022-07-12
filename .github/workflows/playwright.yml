@@ -1,29 +1,26 @@
-name: Playwright Tests
+name: E2E Tests
 
 on: [deployment_status]
 
 jobs:
-  test:
+  test-browsers:
     strategy:
+      fail-fast: false
       matrix:
         browser: ['chromium', 'firefox', 'webkit']
-    timeout-minutes: 60
-    name: e2e tests
+    timeout-minutes: 30
+    container:
+      image: mcr.microsoft.com/playwright:v1.23.1-focal
+      options: --user 1001
+    name: ${{ matrix.browser }}
     if: ${{ github.event.deployment_status.state == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '16.x'
-
       - name: Install dependencies
         run: npm ci
-
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
 
       - name: Run Playwright tests
         run: npm run test:e2e:${{ matrix.browser }}
@@ -33,6 +30,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-${{ matrix.browser }}
           path: playwright-report
+          if-no-files-found: error
           retention-days: 30

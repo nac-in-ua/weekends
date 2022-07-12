@@ -11,7 +11,6 @@ describe('Footer', () => {
   it('should has attributes', () => {
     render(<Footer />)
     const footerLink = screen.getByRole('link')
-    expect(footerLink).toHaveAttribute('href', 'https://nac.in.ua')
-    expect(footerLink).toHaveAttribute('target', '_blank')
+    expect(footerLink).toHaveAttribute('href', 'mailto: nac.in.ua@gmail.com')
   })
 })

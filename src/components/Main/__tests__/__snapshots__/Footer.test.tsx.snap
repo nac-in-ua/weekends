@@ -2,9 +2,8 @@
 
 exports[`Footer should render link with text 1`] = `
 <a
-  href="https://nac.in.ua"
-  rel="noreferrer"
-  target="_blank"
+  class="flex"
+  href="mailto: nac.in.ua@gmail.com"
 >
   nac.in.ua
 </a>

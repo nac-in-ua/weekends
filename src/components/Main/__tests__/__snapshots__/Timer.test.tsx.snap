@@ -12,6 +12,7 @@ exports[`Timer should render 1`] = `
     </h2>
     <div
       class="mt-10 flex flex-row justify-around"
+      data-testid="clock"
     >
       <div
         class="flex w-24 flex-col"

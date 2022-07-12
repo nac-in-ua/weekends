@@ -6,6 +6,12 @@ test.describe('Application Theme', () => {
   })
 
   test('Verify that theme can be changed', async ({ page }) => {
+    await test.step('should match with screenshot on light theme', async () => {
+      await expect(page).toHaveScreenshot('light.png', {
+        mask: [page.locator('[data-testid="clock"]')],
+      })
+    })
+
     const themeSwitcher = page.locator('role=checkbox')
 
     await test.step('should be visible theme toggle switcher', async () => {
@@ -17,6 +23,12 @@ test.describe('Application Theme', () => {
       await themeSwitcher.click()
       await expect(themeSwitcher).toBeChecked()
       await expect(page.locator('html')).toHaveClass('dark')
+    })
+
+    await test.step('should match with screenshot on dark theme', async () => {
+      await expect(page).toHaveScreenshot('dark.png', {
+        mask: [page.locator('[data-testid="clock"]')],
+      })
     })
 
     await test.step('should change to light theme', async () => {
