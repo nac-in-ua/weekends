@@ -86,22 +86,16 @@ test.describe('Settings modal', () => {
     })
 
     await test.step('should select hour from dropdown', async () => {
-      await test.step('should select 00:00', async () => {
-        await page.locator('text=00:00').click()
-        expect(page.locator('text=00:00')).toBeVisible()
-      })
+      await page.locator('text=00:00').click()
+      expect(page.locator('text=00:00')).toBeVisible()
 
-      await test.step('should select current hour', async () => {
-        await page.locator('text=00:00').click()
-        await page.locator('text=00:00').nth(1).click()
-        expect(page.locator('text=00:00')).toBeVisible()
-      })
+      await page.locator('text=00:00').click()
+      await page.locator('text=00:00').nth(1).click()
+      expect(page.locator('text=00:00')).toBeVisible()
 
-      await test.step('should select 23:00', async () => {
-        await page.locator('text=00:00').click()
-        await page.locator('text=23:00').click()
-        expect(page.locator('text=23:00')).toBeVisible()
-      })
+      await page.locator('text=00:00').click()
+      await page.locator('text=23:00').click()
+      expect(page.locator('text=23:00')).toBeVisible()
     })
 
     await test.step('should change switcher position', async () => {
