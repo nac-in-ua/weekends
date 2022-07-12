@@ -1,7 +1,7 @@
 function Footer() {
   return (
-    <footer className="mb-2 flex flex-col justify-center text-center text-base font-thin">
-      <a target="_blank" rel="noreferrer" href="https://nac.in.ua">
+    <footer className="mb-2 flex flex-col items-center justify-center text-center text-base font-thin">
+      <a className="flex" href="mailto: nac.in.ua@gmail.com">
         nac.in.ua
       </a>
     </footer>
