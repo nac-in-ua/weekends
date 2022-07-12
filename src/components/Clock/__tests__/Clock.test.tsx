@@ -9,6 +9,13 @@ describe('Clock', () => {
     expect(container).toMatchSnapshot()
   })
 
+  it('should render with days, hours and minutes when hour is zero (0)', () => {
+    const { container } = render(
+      <Clock time={{ days: 1, hours: 0, minutes: 1, seconds: 1 }} />
+    )
+    expect(container).toMatchSnapshot()
+  })
+
   it('should render without days', () => {
     const { container } = render(
       <Clock time={{ days: 0, hours: 1, minutes: 1, seconds: 1 }} />
