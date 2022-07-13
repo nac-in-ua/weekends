@@ -1,27 +1,11 @@
-interface IFriday {
-  day: number
-  hour: number
-}
+import {
+  ITargetDayTime,
+  ITargetDayTimeWithMinutesAnsSeconds,
+  Theme,
+  ISettings,
+} from '../types'
 
-interface IDEFAULT_FRIDAY {
-  day: number
-  hour: number
-  minute: number
-  second: number
-}
-
-type Theme = 'light' | 'dark'
-
-interface IGetDefaultSettings {
-  greetingsText: string
-  day: number
-  hour: number
-  theme: Theme
-  useSystemTheme: boolean
-  isFirstLoad: boolean
-}
-
-const DEFAULT_FRIDAY: IDEFAULT_FRIDAY = {
+const DEFAULT_FRIDAY: ITargetDayTimeWithMinutesAnsSeconds = {
   day: 5,
   hour: 18,
   minute: 0,
@@ -30,7 +14,7 @@ const DEFAULT_FRIDAY: IDEFAULT_FRIDAY = {
 
 const DEFAULT_THEME: Theme = 'light'
 
-const getDefaultSettings = (): IGetDefaultSettings => ({
+const getDefaultSettings = (): ISettings => ({
   greetingsText: 'Have a beer!',
   day: DEFAULT_FRIDAY.day,
   hour: DEFAULT_FRIDAY.hour,
@@ -39,9 +23,11 @@ const getDefaultSettings = (): IGetDefaultSettings => ({
   isFirstLoad: true,
 })
 
-const getTimerData = (friday: IFriday): IDEFAULT_FRIDAY => ({
-  day: friday.day,
-  hour: friday.hour,
+const getTimerData = (
+  targetDayTime: ITargetDayTime
+): ITargetDayTimeWithMinutesAnsSeconds => ({
+  day: targetDayTime.day,
+  hour: targetDayTime.hour,
   minute: DEFAULT_FRIDAY.minute,
   second: DEFAULT_FRIDAY.second,
 })

@@ -63,7 +63,7 @@ describe('DropdownItem', () => {
         isSelected={true}
       />
     )
-    await userEvent.click(screen.getByTestId('dropdown-item'))
+    userEvent.click(screen.getByTestId('dropdown-item'))
     expect(handleSelect).toHaveBeenCalledTimes(1)
   })
 
@@ -75,7 +75,7 @@ describe('DropdownItem', () => {
         isSelected={true}
       />
     )
-    await userEvent.click(screen.getByTestId('dropdown-item'))
+    userEvent.click(screen.getByTestId('dropdown-item'))
     expect(handleSelect).toHaveBeenCalledWith('sample')
   })
 

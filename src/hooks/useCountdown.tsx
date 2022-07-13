@@ -1,14 +1,8 @@
 import { useState, useEffect } from 'react'
 import { getTimeLeft } from '../utils/getTimeLeft'
+import { ITargetDayTimeWithMinutesAnsSeconds } from '../types'
 
-interface IDEFAULT_FRIDAY {
-  day: number
-  hour: number
-  minute: number
-  second: number
-}
-
-const useCountdown = (targetTime: IDEFAULT_FRIDAY) => {
+const useCountdown = (targetTime: ITargetDayTimeWithMinutesAnsSeconds) => {
   const [time, setTime] = useState(getTimeLeft(targetTime))
 
   useEffect(() => {

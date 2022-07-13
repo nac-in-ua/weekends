@@ -21,10 +21,10 @@ describe('getTimeLeft', () => {
     }
     const timeLeft = getTimeLeft(targetTime)
     expect(timeLeft).toMatchObject({
-      days: 4,
-      hours: 6,
-      minutes: 47,
-      seconds: 49,
+      day: 4,
+      hour: 6,
+      minute: 47,
+      second: 49,
     })
   })
 
@@ -40,10 +40,10 @@ describe('getTimeLeft', () => {
     }
     const timeLeft = getTimeLeft(targetTime)
     expect(timeLeft).toMatchObject({
-      days: 0,
-      hours: 0,
-      minutes: 0,
-      seconds: 0,
+      day: 0,
+      hour: 0,
+      minute: 0,
+      second: 0,
     })
   })
 })
@@ -51,20 +51,20 @@ describe('getTimeLeft', () => {
 describe('isFinished', () => {
   it('should return true if no time left', () => {
     const timeLeft = {
-      days: 0,
-      hours: 0,
-      minutes: 0,
-      seconds: 0,
+      day: 0,
+      hour: 0,
+      minute: 0,
+      second: 0,
     }
     expect(isFinished(timeLeft)).toBe(true)
   })
 
   it('should return false if time left', () => {
     const timeLeft = {
-      days: 0,
-      hours: 0,
-      minutes: 0,
-      seconds: 1,
+      day: 0,
+      hour: 0,
+      minute: 0,
+      second: 1,
     }
     expect(isFinished(timeLeft)).toBe(false)
   })

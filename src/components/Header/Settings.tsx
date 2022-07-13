@@ -2,13 +2,7 @@ import { useState } from 'react'
 import SettingsIcon from './SettingsIcon'
 import SettingsModal from '../UI/Modals/SettingsModal'
 import { useSettingsData, useSettingsDispatch } from '../../store/Settings'
-
-interface ISettingsPayload {
-  greetingsText: string
-  day: number
-  hour: number
-  useSystemTheme: boolean
-}
+import { IEditableSettings } from '../../types'
 
 function Settings() {
   const [isModalOpened, seIsModalOpened] = useState(false)
@@ -21,7 +15,7 @@ function Settings() {
   const handleClose = () => {
     seIsModalOpened(false)
   }
-  const handleApply = (data: ISettingsPayload) => {
+  const handleApply = (data: IEditableSettings) => {
     dispatch({ type: 'set', payload: data })
     seIsModalOpened(false)
   }

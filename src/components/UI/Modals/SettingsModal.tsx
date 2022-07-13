@@ -1,21 +1,10 @@
 import { useState } from 'react'
-
 import Modal from './Modal'
 import ModalRow from './ModalRow'
 import TextInput from '../Inputs/TextInput'
 import Toggle from '../Toggles/Toggle'
 import { DayDropdown, HourDropdown } from '../Dropdowns'
-
-type Theme = 'light' | 'dark'
-
-interface ISettings {
-  greetingsText: string
-  day: number
-  hour: number
-  theme: Theme
-  useSystemTheme: boolean
-  isFirstLoad: boolean
-}
+import { ISettings } from '../../../types'
 
 type SettingsModalProps = {
   onApply: Function

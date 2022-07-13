@@ -18,10 +18,10 @@ describe('useCountdown', () => {
     const { result } = renderHook(() =>
       useCountdown({ day: 5, hour: 18, minute: 0, second: 0 })
     )
-    expect(result.current.seconds).toBe(49)
+    expect(result.current.second).toBe(49)
     act(() => {
       jest.runOnlyPendingTimers()
     })
-    expect(result.current.seconds).toBe(48)
+    expect(result.current.second).toBe(48)
   })
 })

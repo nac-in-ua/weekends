@@ -51,7 +51,7 @@ describe('DropdownItemsList', () => {
         selectedValue={selectedValue}
       />
     )
-    await userEvent.click(screen.getByText('third'))
+    userEvent.click(screen.getByText('third'))
     expect(selectHandler).toHaveBeenCalledTimes(1)
   })
 
@@ -64,7 +64,7 @@ describe('DropdownItemsList', () => {
         selectedValue={selectedValue}
       />
     )
-    await userEvent.click(screen.getByText('third'))
+    userEvent.click(screen.getByText('third'))
     expect(selectHandler).toHaveBeenCalledWith('third')
   })
 })

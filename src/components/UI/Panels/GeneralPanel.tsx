@@ -5,11 +5,7 @@ type GeneralPanelProps = {
   className?: string
 }
 
-GeneralPanel.defaultProps = {
-  className: '',
-}
-
-function GeneralPanel({ children, className }: GeneralPanelProps) {
+function GeneralPanel({ children, className = '' }: GeneralPanelProps) {
   return (
     <div
       className={`absolute overflow-auto rounded-md bg-white shadow-md dark:bg-zinc-900 ${className}`}

@@ -1,45 +1,23 @@
 import React, { useReducer, useMemo, ReactNode } from 'react'
 import { loadSettings, writeSettings } from '../utils/dataAdapter'
 import { getSystemTheme } from '../utils/settings'
+import { ISettings, Action, Dispatch } from '../types'
 
-type Theme = 'light' | 'dark'
-
-interface IState {
-  greetingsText: string
-  day: number
-  hour: number
-  theme: Theme
-  useSystemTheme: boolean
-  isFirstLoad: boolean
-}
-
-interface ISettingsPayload {
-  greetingsText: string
-  day: number
-  hour: number
-  useSystemTheme: boolean
-}
-
-type Action =
-  | { type: 'set'; payload: ISettingsPayload }
-  | { type: 'setTheme'; payload: Theme }
-  | { type: 'setFirstLoad'; payload: boolean }
-
-type Dispatch = (action: Action) => void
-
-const SettingsDataContext = React.createContext<IState | undefined>(undefined)
+const SettingsDataContext = React.createContext<ISettings | undefined>(
+  undefined
+)
 const SettingsDispatchContext = React.createContext<Dispatch | undefined>(
   undefined
 )
 
-const actualSettings = (settings: IState) => {
+const actualSettings = (settings: ISettings) => {
   const actualTheme = settings.useSystemTheme
     ? getSystemTheme()
     : settings.theme
   return { ...settings, theme: actualTheme }
 }
 
-const settingsReducer = (state: IState, action: Action) => {
+const settingsReducer = (state: ISettings, action: Action) => {
   switch (action.type) {
     case 'set': {
       const newSettings = action.payload

@@ -1,12 +1,13 @@
 import StartupModal from '../StartupModal'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { ISettings } from '../../../../types'
 
 describe('StartupModal', () => {
   const handleApply = jest.fn()
   let scrollIntoViewMock = jest.fn()
 
-  const settings = {
+  const settings: ISettings = {
     useSystemTheme: false,
     theme: 'light',
     greetingsText: 'sample greeting',
@@ -54,11 +55,11 @@ describe('StartupModal', () => {
       />
     )
 
-    await userEvent.click(screen.getByText('Friday'))
-    await userEvent.click(screen.getByText('Saturday'))
-    await userEvent.click(screen.getByText('18:00'))
-    await userEvent.click(screen.getByText('17:00'))
-    await userEvent.click(screen.getByRole('button', { name: 'Apply' }))
+    userEvent.click(screen.getByText('Friday'))
+    userEvent.click(screen.getByText('Saturday'))
+    userEvent.click(screen.getByText('18:00'))
+    userEvent.click(screen.getByText('17:00'))
+    userEvent.click(screen.getByRole('button', { name: 'Apply' }))
     expect(handleApply).toHaveBeenCalledWith({
       day: 6,
       hour: 17,

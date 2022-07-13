@@ -17,7 +17,7 @@ describe('SettingsIcon', () => {
   it('should handle click', async () => {
     render(<SettingsIcon onClick={handleClick} />)
     const icon = screen.getByRole('img')
-    await userEvent.click(icon)
+    userEvent.click(icon)
     expect(handleClick).toHaveBeenCalledTimes(1)
   })
 })
