@@ -280,6 +280,7 @@ describe('Settings context provider', () => {
 
   it('should throw error if no context provider provided', () => {
     function WrappedComponentNew() {
+      jest.spyOn(console, 'error').mockImplementation(() => {})
       const settings = useSettingsData()
       const dispatch = useSettingsDispatch()
       expect(settings).toThrowError()
