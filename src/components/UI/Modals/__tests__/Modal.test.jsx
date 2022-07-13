@@ -50,7 +50,7 @@ describe('Modal', () => {
         <div>sample content</div>
       </Modal>
     )
-    await userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+    userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
     expect(cancelHandler).toHaveBeenCalledTimes(1)
     document.body.removeChild(modalRoot)
   })
@@ -82,7 +82,7 @@ describe('Modal', () => {
         <div>sample content</div>
       </Modal>
     )
-    await userEvent.click(screen.getByRole('button', { name: 'Apply' }))
+    userEvent.click(screen.getByRole('button', { name: 'Apply' }))
     expect(applyHandler).toHaveBeenCalledTimes(1)
     document.body.removeChild(modalRoot)
   })

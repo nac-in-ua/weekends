@@ -84,7 +84,7 @@ describe('DarkModeSwitcher', () => {
     mockedUseSettingsDispatch.mockImplementation(() => handleApply)
     render(<DarkModeSwitcher />)
     const toggle = screen.getByRole('checkbox')
-    await userEvent.click(toggle)
+    userEvent.click(toggle)
     expect(handleApply).toBeCalledWith({ payload: 'light', type: 'setTheme' })
   })
 
@@ -100,7 +100,7 @@ describe('DarkModeSwitcher', () => {
     mockedUseSettingsDispatch.mockImplementation(() => handleApply)
     render(<DarkModeSwitcher />)
     const toggle = screen.getByRole('checkbox')
-    await userEvent.click(toggle)
+    userEvent.click(toggle)
     expect(handleApply).toBeCalledWith({ payload: 'dark', type: 'setTheme' })
   })
 })

@@ -16,7 +16,7 @@ describe('Button', () => {
 
   it('should handle click', async () => {
     render(<Button title="sample" onClick={clickHandler} />)
-    await userEvent.click(screen.getByRole('button'))
+    userEvent.click(screen.getByRole('button'))
     expect(clickHandler).toHaveBeenCalledTimes(1)
   })
 })

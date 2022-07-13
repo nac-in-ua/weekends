@@ -44,7 +44,7 @@ describe('Dropdown', () => {
         value={'second'}
       />
     )
-    await userEvent.click(screen.getByRole('button'))
+    userEvent.click(screen.getByRole('button'))
     expect(container).toMatchSnapshot()
   })
 
@@ -57,8 +57,8 @@ describe('Dropdown', () => {
         value={'second'}
       />
     )
-    await userEvent.click(screen.getByRole('button'))
-    await userEvent.click(document.body)
+    userEvent.click(screen.getByRole('button'))
+    userEvent.click(document.body)
     expect(container).toMatchSnapshot()
   })
 
@@ -72,8 +72,8 @@ describe('Dropdown', () => {
       />
     )
     const dropdownElement = screen.getByRole('button')
-    await userEvent.click(dropdownElement)
-    await userEvent.click(screen.getByText('third'))
+    userEvent.click(dropdownElement)
+    userEvent.click(screen.getByText('third'))
     expect(dropdownElement).toHaveTextContent('third')
   })
 
@@ -86,8 +86,8 @@ describe('Dropdown', () => {
         value={'second'}
       />
     )
-    await userEvent.click(screen.getByRole('button'))
-    await userEvent.click(screen.getByText('third'))
+    userEvent.click(screen.getByRole('button'))
+    userEvent.click(screen.getByText('third'))
     expect(handleChage).toHaveBeenCalledTimes(1)
     expect(handleChage).toHaveBeenCalledWith('third')
   })
@@ -101,8 +101,8 @@ describe('Dropdown', () => {
         value={'second'}
       />
     )
-    await userEvent.click(screen.getByRole('button'))
-    await userEvent.click(screen.getByText('third'))
+    userEvent.click(screen.getByRole('button'))
+    userEvent.click(screen.getByText('third'))
     screen
       .queryAllByTestId('dropdown-item')
       .forEach((item) => expect(item).not.toBeInTheDocument())
@@ -119,7 +119,7 @@ describe('Dropdown', () => {
     )
     const arrow = screen.getByRole('img')
     expect(arrow).toMatchSnapshot()
-    await userEvent.click(screen.getByRole('button'))
+    userEvent.click(screen.getByRole('button'))
     expect(arrow).toMatchSnapshot()
   })
 })

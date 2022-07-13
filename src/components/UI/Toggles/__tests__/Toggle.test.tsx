@@ -28,7 +28,7 @@ describe('Toggle', () => {
 
   it('should handle click', async () => {
     render(<Toggle isChecked={true} onClick={clickHandler} />)
-    await userEvent.click(screen.getByRole('checkbox'))
+    userEvent.click(screen.getByRole('checkbox'))
     expect(clickHandler).toHaveBeenCalledTimes(1)
   })
 })

@@ -1,17 +1,7 @@
 import SettingsModal from '../SettingsModal'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-
-type Theme = 'light' | 'dark'
-
-interface ISettings {
-  greetingsText: string
-  day: number
-  hour: number
-  theme: Theme
-  useSystemTheme: boolean
-  isFirstLoad: boolean
-}
+import { ISettings } from '../../../../types'
 
 describe('SettingsModal', () => {
   const handleApply = jest.fn()
@@ -68,7 +58,7 @@ describe('SettingsModal', () => {
       />
     )
     const toggle = screen.getByRole('checkbox')
-    await userEvent.click(toggle)
+    userEvent.click(toggle)
     expect(toggle).toBeChecked()
     document.body.removeChild(modalRoot)
   })

@@ -101,7 +101,7 @@ describe('Settings context provider', () => {
         <WrappedComponent />
       </SettingsContextProvider>
     )
-    await userEvent.click(screen.getByRole('button', { name: /apply/i }))
+    userEvent.click(screen.getByRole('button', { name: /apply/i }))
     expect(loadSettings).toHaveBeenCalledTimes(1)
     expect(writeSettings).toHaveBeenCalledWith({
       hour: 19,
@@ -147,7 +147,7 @@ describe('Settings context provider', () => {
         <WrappedComponentNew />
       </SettingsContextProvider>
     )
-    await userEvent.click(screen.getByRole('button', { name: /apply/i }))
+    userEvent.click(screen.getByRole('button', { name: /apply/i }))
     expect(loadSettings).toHaveBeenCalledTimes(1)
     expect(writeSettings).toHaveBeenCalledWith({
       hour: 18,
@@ -191,7 +191,7 @@ describe('Settings context provider', () => {
       </SettingsContextProvider>
     )
     const checkbox = screen.getByRole('checkbox')
-    await userEvent.click(checkbox)
+    userEvent.click(checkbox)
     expect(checkbox).toBeChecked()
   })
 
@@ -233,7 +233,7 @@ describe('Settings context provider', () => {
       </SettingsContextProvider>
     )
     const component = screen.getByTestId('component')
-    await userEvent.click(component)
+    userEvent.click(component)
     expect(component).toHaveTextContent(
       '{"hour":18,"day":6,"greetingsText":"Hello","theme":"dark","useSystemTheme":true,"isFirstLoad":false}'
     )

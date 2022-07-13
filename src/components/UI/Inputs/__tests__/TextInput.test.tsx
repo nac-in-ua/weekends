@@ -29,9 +29,9 @@ describe('TextInput', () => {
       />
     )
     const input = screen.getByTestId('greetings-text-input')
-    await userEvent.clear(input)
+    userEvent.clear(input)
     expect(input).toMatchSnapshot()
-    await userEvent.type(input, '   ')
+    userEvent.type(input, '   ')
     expect(input).toMatchSnapshot()
   })
 
@@ -44,8 +44,8 @@ describe('TextInput', () => {
       />
     )
     const input = screen.getByTestId('greetings-text-input')
-    await userEvent.clear(input)
-    await userEvent.type(input, 'have a beer')
+    userEvent.clear(input)
+    userEvent.type(input, 'have a beer')
     expect(changeHandler).toHaveBeenCalledWith('have a beer')
   })
 })

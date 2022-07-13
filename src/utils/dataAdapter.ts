@@ -3,19 +3,9 @@ import {
   writeToLocalstorage,
   readFromLocalstorage,
 } from './localstorageAdapter'
+import { ISettings } from '../types'
 
-type Theme = 'light' | 'dark'
-
-interface IGetDefaultSettings {
-  greetingsText: string
-  day: number
-  hour: number
-  theme: Theme
-  useSystemTheme: boolean
-  isFirstLoad: boolean
-}
-
-const loadSettings = (): IGetDefaultSettings => {
+const loadSettings = (): ISettings => {
   const localStorageData = readFromLocalstorage('settings')
   if (!localStorageData) {
     writeSettings(getDefaultSettings())
@@ -24,7 +14,7 @@ const loadSettings = (): IGetDefaultSettings => {
   return JSON.parse(atob(localStorageData))
 }
 
-const writeSettings = (settings: IGetDefaultSettings): void => {
+const writeSettings = (settings: ISettings): void => {
   writeToLocalstorage('settings', btoa(JSON.stringify(settings)))
 }
 

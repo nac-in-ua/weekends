@@ -1,16 +1,11 @@
 import Modal from './Modal'
 import { DayDropdown, HourDropdown } from '../../UI/Dropdowns'
 import { useState } from 'react'
-
-type Settings = {
-  greetingsText: string
-  day: number
-  hour: number
-}
+import { ISettings } from '../../../types'
 
 type StartupModalProps = {
   onApply: Function
-  settings: Settings
+  settings: ISettings
   title: string
 }
 

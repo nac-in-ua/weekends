@@ -1,49 +1,38 @@
 import dayjs from 'dayjs'
 import objectSupport from 'dayjs/plugin/objectSupport'
+import { ITargetDayTimeWithMinutesAnsSeconds } from '../types'
 dayjs.extend(objectSupport)
 
 const SECONDS_IN = {
-  day: 86400,
-  hour: 3600,
-  minute: 60,
+  DAY: 86400,
+  HOUR: 3600,
+  MINUTE: 60,
 }
 
-interface IDEFAULT_FRIDAY {
-  day: number
-  hour: number
-  minute: number
-  second: number
-}
-
-interface IGetTimerData {
-  days: number
-  hours: number
-  minutes: number
-  seconds: number
-}
-
-const getTimeLeft = (time: IDEFAULT_FRIDAY) => {
-  const secondsLeft = dayjs().set(time).diff(dayjs(), 'second')
+const getTimeLeft = (
+  targetValue: ITargetDayTimeWithMinutesAnsSeconds
+): ITargetDayTimeWithMinutesAnsSeconds => {
+  const secondsLeft = dayjs().set(targetValue).diff(dayjs(), 'second')
   if (secondsLeft <= 0) {
     return {
-      days: 0,
-      hours: 0,
-      minutes: 0,
-      seconds: 0,
+      day: 0,
+      hour: 0,
+      minute: 0,
+      second: 0,
     }
   }
-  const days = Math.trunc(secondsLeft / SECONDS_IN.day)
-  const hours = Math.trunc(secondsLeft / SECONDS_IN.hour)
-  const minutes = Math.trunc(secondsLeft / SECONDS_IN.minute)
+  const day = Math.trunc(secondsLeft / SECONDS_IN.DAY)
+  const hour = Math.trunc(secondsLeft / SECONDS_IN.HOUR)
+  const minute = Math.trunc(secondsLeft / SECONDS_IN.MINUTE)
   return {
-    days,
-    hours: hours - days * 24,
-    minutes: minutes - hours * 60,
-    seconds: secondsLeft - minutes * 60,
+    day,
+    hour: hour - day * 24,
+    minute: minute - hour * 60,
+    second: secondsLeft - minute * 60,
   }
 }
 
-const isFinished = (time: IGetTimerData) =>
-  Object.values(time).every((value) => value === 0)
+const isFinished = (currentValue: ITargetDayTimeWithMinutesAnsSeconds) =>
+  Object.values(currentValue).every((value) => value === 0)
 
 export { getTimeLeft, isFinished }

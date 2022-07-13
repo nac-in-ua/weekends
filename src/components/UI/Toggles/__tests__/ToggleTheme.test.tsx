@@ -27,7 +27,7 @@ describe('ToggleTheme', () => {
 
   it('should handle click', async () => {
     render(<ToggleTheme isChecked={true} onClick={clickHandler} />)
-    await userEvent.click(screen.getByRole('checkbox'))
+    userEvent.click(screen.getByRole('checkbox'))
     expect(clickHandler).toHaveBeenCalledTimes(1)
   })
 })

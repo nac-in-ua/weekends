@@ -1,4 +1,4 @@
-const DAYS = [
+const DAYS: string[] = [
   'Monday',
   'Tuesday',
   'Wednesday',
@@ -8,7 +8,7 @@ const DAYS = [
   'Sunday',
 ]
 
-const HOURS = [
+const HOURS: string[] = [
   '00:00',
   '01:00',
   '02:00',

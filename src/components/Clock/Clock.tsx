@@ -1,29 +1,23 @@
 import Digitblock from './Digitblock'
-
-interface IGetTimerData {
-  days: number
-  hours: number
-  minutes: number
-  seconds: number
-}
+import { ITargetDayTimeWithMinutesAnsSeconds } from '../../types'
 
 type ClockProps = {
-  time: IGetTimerData
+  time: ITargetDayTimeWithMinutesAnsSeconds
 }
 
 function Clock({ time }: ClockProps) {
   return (
     <div className="mt-10 flex flex-row justify-around" data-testid="clock">
-      {time.days !== 0 && (
-        <Digitblock label="days" digit={time.days} separator=":" />
+      {time.day !== 0 && (
+        <Digitblock label="days" digit={time.day} separator=":" />
       )}
-      {(time.days !== 0 || time.hours !== 0) && (
-        <Digitblock label="hours" digit={time.hours} separator=":" />
+      {(time.day !== 0 || time.hour !== 0) && (
+        <Digitblock label="hours" digit={time.hour} separator=":" />
       )}
-      {(time.days !== 0 || time.hours !== 0 || time.minutes !== 0) && (
-        <Digitblock label="minutes" digit={time.minutes} separator=":" />
+      {(time.day !== 0 || time.hour !== 0 || time.minute !== 0) && (
+        <Digitblock label="minutes" digit={time.minute} separator=":" />
       )}
-      <Digitblock label="seconds" digit={time.seconds} />
+      <Digitblock label="seconds" digit={time.second} />
     </div>
   )
 }

@@ -1,4 +1,10 @@
-const getDefaultSettings = () => ({
+import {
+  ISettings,
+  ITargetDayTimeWithMinutesAnsSeconds,
+  Theme,
+} from '../../types'
+
+const getDefaultSettings = (): ISettings => ({
   greetingsText: 'Have a beer!',
   day: 5,
   hour: 18,
@@ -7,28 +13,19 @@ const getDefaultSettings = () => ({
   isFirstLoad: true,
 })
 
-interface IFriday {
-  day: number
-  hour: number
-  minute: number
-  second: number
-}
-
-const getTimerData = (friday: IFriday) => ({
-  days: friday.day,
-  hours: friday.hour,
+const getTimerData = (targetDayTime: ITargetDayTimeWithMinutesAnsSeconds) => ({
+  days: targetDayTime.day,
+  hours: targetDayTime.hour,
   minutes: 0,
   seconds: 0,
 })
 
-type SystemTheme = 'light' | 'dark'
-
-const getSystemTheme = (): SystemTheme =>
+const getSystemTheme = (): Theme =>
   window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
     ? 'dark'
     : 'light'
 
-const applyTheme = (theme: SystemTheme): void => {
+const applyTheme = (theme: Theme): void => {
   const root = document.documentElement
   if (theme === 'dark') {
     root.classList.add('dark')
