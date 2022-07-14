@@ -21,7 +21,8 @@ interface ISettings extends ITargetDayTime, IEditableSettings {
 }
 
 type Action =
-  | { type: 'set'; payload: IEditableSettings }
+  | { type: 'setSettings'; payload: IEditableSettings }
+  | { type: 'setInitialSettings'; payload: ITargetDayTime }
   | { type: 'setTheme'; payload: Theme }
   | { type: 'setFirstLoad'; payload: boolean }
 

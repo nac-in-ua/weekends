@@ -19,7 +19,7 @@ const WrappedComponent = () => {
       <button
         onClick={() =>
           dispatch({
-            type: 'set',
+            type: 'setSettings',
             payload: {
               hour: 19,
               day: 4,
@@ -204,7 +204,7 @@ describe('Settings context provider', () => {
           data-testid="component"
           onClick={() =>
             dispatch({
-              type: 'set',
+              type: 'setSettings',
               payload: {
                 hour: 18,
                 day: 6,

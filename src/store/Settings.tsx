@@ -19,7 +19,12 @@ const actualSettings = (settings: ISettings) => {
 
 const settingsReducer = (state: ISettings, action: Action) => {
   switch (action.type) {
-    case 'set': {
+    case 'setSettings': {
+      const newSettings = action.payload
+      writeSettings({ ...state, ...newSettings })
+      return { ...state, ...newSettings }
+    }
+    case 'setInitialSettings': {
       const newSettings = action.payload
       writeSettings({ ...state, ...newSettings })
       return { ...state, ...newSettings }

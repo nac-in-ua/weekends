@@ -1,28 +1,42 @@
 import SettingsModal from '../SettingsModal'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { ISettings } from '../../../../types'
+
+import {
+  useSettingsData,
+  useSettingsDispatch,
+} from '../../../../store/Settings'
+
+jest.mock('../../../../store/Settings')
 
 describe('SettingsModal', () => {
+  const handleDispatch = jest.fn()
+  const mockedUseSettingsData = jest.mocked(useSettingsData)
+  const mockedUseSettingsDispatch = jest.mocked(useSettingsDispatch)
   const handleApply = jest.fn()
   const handleCancel = jest.fn()
   let scrollIntoViewMock = jest.fn()
-
-  const settings: ISettings = {
-    useSystemTheme: false,
-    theme: 'light',
-    greetingsText: 'sample greeting',
-    day: 5,
-    hour: 18,
-    isFirstLoad: false,
-  }
 
   beforeAll(() => {
     window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock
   })
 
+  beforeEach(() => {
+    mockedUseSettingsData.mockImplementation(() => ({
+      useSystemTheme: false,
+      theme: 'light',
+      greetingsText: 'sample greeting',
+      day: 5,
+      hour: 18,
+      isFirstLoad: false,
+    }))
+  })
+
   afterEach(() => {
     scrollIntoViewMock.mockClear()
+    handleDispatch.mockClear()
+    mockedUseSettingsData.mockClear()
+    mockedUseSettingsDispatch.mockClear()
   })
 
   afterAll(() => {
@@ -33,14 +47,8 @@ describe('SettingsModal', () => {
     const modalRoot = document.createElement('div')
     modalRoot.setAttribute('id', 'modal-root')
     document.body.appendChild(modalRoot)
-    render(
-      <SettingsModal
-        settings={settings}
-        title="sample title"
-        onApply={handleApply}
-        onCancel={handleCancel}
-      />
-    )
+
+    render(<SettingsModal onApply={handleApply} onCancel={handleCancel} />)
     expect(screen.getByTestId('settings-modal')).toMatchSnapshot()
     document.body.removeChild(modalRoot)
   })
@@ -49,14 +57,8 @@ describe('SettingsModal', () => {
     const modalRoot = document.createElement('div')
     modalRoot.setAttribute('id', 'modal-root')
     document.body.appendChild(modalRoot)
-    render(
-      <SettingsModal
-        settings={settings}
-        title="sample title"
-        onApply={handleApply}
-        onCancel={handleCancel}
-      />
-    )
+
+    render(<SettingsModal onApply={handleApply} onCancel={handleCancel} />)
     const toggle = screen.getByRole('checkbox')
     userEvent.click(toggle)
     expect(toggle).toBeChecked()
@@ -64,17 +66,13 @@ describe('SettingsModal', () => {
   })
 
   it('should handle Apply with new settings', () => {
+    mockedUseSettingsDispatch.mockImplementation(() => handleDispatch)
+
     const modalRoot = document.createElement('div')
     modalRoot.setAttribute('id', 'modal-root')
     document.body.appendChild(modalRoot)
-    render(
-      <SettingsModal
-        settings={settings}
-        title="sample title"
-        onApply={handleApply}
-        onCancel={handleCancel}
-      />
-    )
+
+    render(<SettingsModal onApply={handleApply} onCancel={handleCancel} />)
 
     const greetingsTextInput = screen.getByPlaceholderText('Have a beer')
     userEvent.clear(greetingsTextInput)
@@ -85,27 +83,29 @@ describe('SettingsModal', () => {
     userEvent.click(screen.getByText('17:00'))
     userEvent.click(screen.getByRole('checkbox'))
     userEvent.click(screen.getByRole('button', { name: 'Apply' }))
-    expect(handleApply).toHaveBeenCalledWith({
-      greetingsText: 'new greeting ',
-      day: 6,
-      hour: 17,
-      useSystemTheme: true,
+
+    expect(handleDispatch).toHaveBeenCalledWith({
+      type: 'setSettings',
+      payload: {
+        greetingsText: 'new greeting ',
+        day: 6,
+        hour: 17,
+        useSystemTheme: true,
+      },
     })
+    expect(handleApply).toHaveBeenCalled()
+
     document.body.removeChild(modalRoot)
   })
 
   it('should not handle Apply when text is empty', () => {
+    mockedUseSettingsDispatch.mockImplementation(() => handleDispatch)
+
     const modalRoot = document.createElement('div')
     modalRoot.setAttribute('id', 'modal-root')
     document.body.appendChild(modalRoot)
-    render(
-      <SettingsModal
-        settings={settings}
-        title="sample title"
-        onApply={handleApply}
-        onCancel={handleCancel}
-      />
-    )
+
+    render(<SettingsModal onApply={handleApply} onCancel={handleCancel} />)
 
     const greetingsTextInput = screen.getByPlaceholderText('Have a beer')
     userEvent.clear(greetingsTextInput)
@@ -116,7 +116,10 @@ describe('SettingsModal', () => {
     userEvent.click(screen.getByText('17:00'))
     userEvent.click(screen.getByRole('checkbox'))
     userEvent.click(screen.getByRole('button', { name: 'Apply' }))
+
+    expect(handleDispatch).not.toHaveBeenCalled()
     expect(handleApply).not.toHaveBeenCalled()
+
     document.body.removeChild(modalRoot)
   })
 })
