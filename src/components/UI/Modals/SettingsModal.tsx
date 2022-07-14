@@ -4,7 +4,7 @@ import ModalRow from './ModalRow'
 import TextInput from '../Inputs/TextInput'
 import Toggle from '../Toggles/Toggle'
 import { DayDropdown, HourDropdown } from '../Dropdowns'
-import { useSettingsData, useSettingsDispatch } from '../../../store/Settings'
+import useSettings from '../../../hooks/useSettings'
 
 type SettingsModalProps = {
   onApply: Function
@@ -12,8 +12,7 @@ type SettingsModalProps = {
 }
 
 function SettingsModal({ onApply, onCancel }: SettingsModalProps) {
-  const settings = useSettingsData()
-  const dispatch = useSettingsDispatch()
+  const [settings, dispatch] = useSettings()
 
   const [greetingsText, setGeetingsText] = useState(settings.greetingsText)
   const [day, setDay] = useState(settings.day)

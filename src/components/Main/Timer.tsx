@@ -1,7 +1,7 @@
 import Clock from '../Clock/Clock'
 import Actiontext from './Actiontext'
 import { useEffect } from 'react'
-import { useSettingsData } from '../../store/Settings'
+import useSettings from '../../hooks/useSettings'
 import { getTimerData } from '../../utils/settings'
 import { isFinished } from '../../utils/getTimeLeft'
 import useCountdown from '../../hooks/useCountdown'
@@ -11,7 +11,7 @@ type TimerProps = {
 }
 
 function Timer({ onFinish }: TimerProps) {
-  const settings = useSettingsData()
+  const [settings] = useSettings()
   const time = useCountdown(getTimerData(settings))
 
   useEffect(() => {
