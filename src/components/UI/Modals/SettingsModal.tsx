@@ -4,7 +4,7 @@ import ModalRow from './ModalRow'
 import TextInput from '../Inputs/TextInput'
 import Toggle from '../Toggles/Toggle'
 import { DayDropdown, HourDropdown } from '../Dropdowns'
-import useSettings from '../../../hooks/useSettings'
+import { useSettings } from '../../../hooks/useSettings'
 
 type SettingsModalProps = {
   onApply: Function

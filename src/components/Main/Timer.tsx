@@ -1,7 +1,7 @@
 import Clock from '../Clock/Clock'
 import Actiontext from './Actiontext'
 import { useEffect } from 'react'
-import useSettings from '../../hooks/useSettings'
+import { useSettings } from '../../hooks/useSettings'
 import { getTimerData } from '../../utils/settings'
 import { isFinished } from '../../utils/getTimeLeft'
 import useCountdown from '../../hooks/useCountdown'

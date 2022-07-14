@@ -2,17 +2,13 @@ import SettingsModal from '../SettingsModal'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import {
-  useSettingsData,
-  useSettingsDispatch,
-} from '../../../../store/Settings'
+import { useSettings } from '../../../../hooks/useSettings'
 
-jest.mock('../../../../store/Settings')
+jest.mock('../../../../hooks/useSettings')
 
 describe('SettingsModal', () => {
   const handleDispatch = jest.fn()
-  const mockedUseSettingsData = jest.mocked(useSettingsData)
-  const mockedUseSettingsDispatch = jest.mocked(useSettingsDispatch)
+  const mockedUseSettings = jest.mocked(useSettings)
   const handleApply = jest.fn()
   const handleCancel = jest.fn()
   let scrollIntoViewMock = jest.fn()
@@ -22,21 +18,23 @@ describe('SettingsModal', () => {
   })
 
   beforeEach(() => {
-    mockedUseSettingsData.mockImplementation(() => ({
-      useSystemTheme: false,
-      theme: 'light',
-      greetingsText: 'sample greeting',
-      day: 5,
-      hour: 18,
-      isFirstLoad: false,
-    }))
+    mockedUseSettings.mockImplementation(() => [
+      {
+        useSystemTheme: false,
+        theme: 'light',
+        greetingsText: 'sample greeting',
+        day: 5,
+        hour: 18,
+        isFirstLoad: false,
+      },
+      handleDispatch,
+    ])
   })
 
   afterEach(() => {
     scrollIntoViewMock.mockClear()
     handleDispatch.mockClear()
-    mockedUseSettingsData.mockClear()
-    mockedUseSettingsDispatch.mockClear()
+    mockedUseSettings.mockClear()
   })
 
   afterAll(() => {
@@ -66,8 +64,6 @@ describe('SettingsModal', () => {
   })
 
   it('should handle Apply with new settings', () => {
-    mockedUseSettingsDispatch.mockImplementation(() => handleDispatch)
-
     const modalRoot = document.createElement('div')
     modalRoot.setAttribute('id', 'modal-root')
     document.body.appendChild(modalRoot)
@@ -99,8 +95,6 @@ describe('SettingsModal', () => {
   })
 
   it('should not handle Apply when text is empty', () => {
-    mockedUseSettingsDispatch.mockImplementation(() => handleDispatch)
-
     const modalRoot = document.createElement('div')
     modalRoot.setAttribute('id', 'modal-root')
     document.body.appendChild(modalRoot)

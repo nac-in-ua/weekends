@@ -1,39 +1,37 @@
 import StartupModal from '../StartupModal'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import {
-  useSettingsData,
-  useSettingsDispatch,
-} from '../../../../store/Settings'
+import { useSettings } from '../../../../hooks/useSettings'
 
-jest.mock('../../../../store/Settings')
+jest.mock('../../../../hooks/useSettings')
 
 describe('StartupModal', () => {
   const handleDispatch = jest.fn()
   let scrollIntoViewMock = jest.fn()
-  const mockedUseSettingsData = jest.mocked(useSettingsData)
-  const mockedUseSettingsDispatch = jest.mocked(useSettingsDispatch)
+  const mockedUseSettings = jest.mocked(useSettings)
 
   beforeAll(() => {
     window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock
   })
 
   beforeEach(() => {
-    mockedUseSettingsData.mockImplementation(() => ({
-      useSystemTheme: false,
-      theme: 'light',
-      greetingsText: 'sample',
-      day: 5,
-      hour: 18,
-      isFirstLoad: false,
-    }))
+    mockedUseSettings.mockImplementation(() => [
+      {
+        useSystemTheme: false,
+        theme: 'light',
+        greetingsText: 'sample',
+        day: 5,
+        hour: 18,
+        isFirstLoad: false,
+      },
+      handleDispatch,
+    ])
   })
 
   afterEach(() => {
     scrollIntoViewMock.mockClear()
     handleDispatch.mockClear()
-    mockedUseSettingsData.mockClear()
-    mockedUseSettingsDispatch.mockClear()
+    mockedUseSettings.mockClear()
   })
 
   afterAll(() => {
@@ -51,8 +49,6 @@ describe('StartupModal', () => {
   })
 
   it('should handle Apply with new settings', async () => {
-    mockedUseSettingsDispatch.mockImplementation(() => handleDispatch)
-
     const modalRoot = document.createElement('div')
     modalRoot.setAttribute('id', 'modal-root')
     document.body.appendChild(modalRoot)

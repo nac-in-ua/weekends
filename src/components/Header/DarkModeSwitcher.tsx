@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import ToggleTheme from '../UI/Toggles/ToggleTheme'
-import useSettings from '../../hooks/useSettings'
+import { useSettings } from '../../hooks/useSettings'
 import { getSystemTheme, applyTheme } from '../../utils/settings'
 
 function DarkModeSwitcher() {

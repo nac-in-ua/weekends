@@ -3,7 +3,7 @@ import { Description, Footer, Greetings } from './components/Main'
 import Timer from './components/Main/Timer'
 import { useState, useEffect } from 'react'
 import { applyTheme } from './utils/settings'
-import useSettings from './hooks/useSettings'
+import { useSettings } from './hooks/useSettings'
 import StartupModal from './components/UI/Modals/StartupModal'
 
 function App() {

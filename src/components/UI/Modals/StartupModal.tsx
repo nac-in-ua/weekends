@@ -2,11 +2,10 @@ import Modal from './Modal'
 import { DayDropdown, HourDropdown } from '../../UI/Dropdowns'
 import { useState } from 'react'
 import { ITargetDayTime } from '../../../types'
-import { useSettingsData, useSettingsDispatch } from '../../../store/Settings'
+import { useSettings } from '../../../hooks/useSettings'
 
 function StartupModal() {
-  const settings = useSettingsData()
-  const dispatch = useSettingsDispatch()
+  const [settings, dispatch] = useSettings()
   const [day, setDay] = useState(settings.day)
   const [hour, setHour] = useState(settings.hour)
 
