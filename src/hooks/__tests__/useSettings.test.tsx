@@ -1,4 +1,7 @@
-import { SettingsContextProvider } from '../../store/Settings'
+import {
+  SettingsContextProvider,
+  SettingsDataContext,
+} from '../../store/Settings'
 import { useSettings } from '../useSettings'
 import { loadSettings, writeSettings } from '../../utils/dataAdapter'
 import React from 'react'
@@ -180,7 +183,7 @@ describe('useSettings hook', () => {
     )
   })
 
-  it('should throw error if no context provider provided', () => {
+  it('should throw error if no context data provider provided', () => {
     function WrappedComponentNew() {
       jest.spyOn(console, 'error').mockImplementation(() => {})
       const [settings, dispatch] = useSettings()
@@ -200,5 +203,42 @@ describe('useSettings hook', () => {
       )
     }
     expect(() => render(<WrappedComponentNew />)).toThrowError()
+  })
+
+  it('should throw error if no context dispatch provider provided', () => {
+    function WrappedComponentNew() {
+      jest.spyOn(console, 'error').mockImplementation(() => {})
+      const [settings, dispatch] = useSettings()
+      expect(settings).toThrowError()
+      return (
+        <div
+          data-testid="component"
+          onClick={() =>
+            dispatch({
+              type: 'setFirstLoad',
+              payload: false,
+            })
+          }
+        >
+          {JSON.stringify(settings)}
+        </div>
+      )
+    }
+    expect(() =>
+      render(
+        <SettingsDataContext.Provider
+          value={{
+            day: 6,
+            hour: 18,
+            greetingsText: 'Hello',
+            theme: 'light',
+            useSystemTheme: true,
+            isFirstLoad: true,
+          }}
+        >
+          <WrappedComponentNew />
+        </SettingsDataContext.Provider>
+      )
+    ).toThrowError()
   })
 })
