@@ -28,6 +28,19 @@ const WrappedComponent = () => {
       >
         Apply
       </button>
+      <button
+        onClick={() =>
+          dispatch({
+            type: 'setInitialSettings',
+            payload: {
+              hour: 20,
+              day: 6,
+            },
+          })
+        }
+      >
+        Apply Initial
+      </button>
     </>
   )
 }
@@ -98,7 +111,7 @@ describe('Settings context provider', () => {
         <WrappedComponent />
       </SettingsContextProvider>
     )
-    userEvent.click(screen.getByRole('button', { name: /apply/i }))
+    userEvent.click(screen.getByRole('button', { name: 'Apply' }))
     expect(loadSettings).toHaveBeenCalledTimes(1)
     expect(writeSettings).toHaveBeenCalledWith({
       hour: 19,
@@ -106,6 +119,33 @@ describe('Settings context provider', () => {
       greetingsText: 'Hello world',
       theme: 'light',
       useSystemTheme: true,
+      isFirstLoad: true,
+    })
+  })
+
+  it('should write startup settings', async () => {
+    mockedLoadSettings.mockImplementation(() => ({
+      day: 6,
+      hour: 18,
+      greetingsText: 'Hello',
+      theme: 'light',
+      useSystemTheme: false,
+      isFirstLoad: true,
+    }))
+
+    render(
+      <SettingsContextProvider>
+        <WrappedComponent />
+      </SettingsContextProvider>
+    )
+    userEvent.click(screen.getByRole('button', { name: 'Apply Initial' }))
+    expect(loadSettings).toHaveBeenCalledTimes(1)
+    expect(writeSettings).toHaveBeenCalledWith({
+      hour: 20,
+      day: 6,
+      greetingsText: 'Hello',
+      theme: 'light',
+      useSystemTheme: false,
       isFirstLoad: true,
     })
   })

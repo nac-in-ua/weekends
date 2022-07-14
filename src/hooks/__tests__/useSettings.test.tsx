@@ -1,5 +1,5 @@
 import { SettingsContextProvider } from '../../store/Settings'
-import { useSettingsData, useSettingsDispatch } from '../useSettings'
+import { useSettings } from '../useSettings'
 import { loadSettings, writeSettings } from '../../utils/dataAdapter'
 import React from 'react'
 import { render, screen } from '@testing-library/react'
@@ -21,8 +21,7 @@ describe('useSettings hook', () => {
 
   it('should write alternative settings', async () => {
     function WrappedComponentNew() {
-      const settings = useSettingsData()
-      const dispatch = useSettingsDispatch()
+      const [settings, dispatch] = useSettings()
       return (
         <>
           <div>{JSON.stringify(settings, null, '\t')}</div>
@@ -67,8 +66,7 @@ describe('useSettings hook', () => {
 
   it('should change theme', async () => {
     function WrappedComponentNew() {
-      const settings = useSettingsData()
-      const dispatch = useSettingsDispatch()
+      const [settings, dispatch] = useSettings()
       return (
         <input
           type="checkbox"
@@ -103,8 +101,7 @@ describe('useSettings hook', () => {
 
   it('should change all settings', async () => {
     function WrappedComponentNew() {
-      const settings = useSettingsData()
-      const dispatch = useSettingsDispatch()
+      const [settings, dispatch] = useSettings()
       return (
         <div
           data-testid="component"
@@ -147,8 +144,7 @@ describe('useSettings hook', () => {
 
   it('should change first load settings', () => {
     function WrappedComponentNew() {
-      const settings = useSettingsData()
-      const dispatch = useSettingsDispatch()
+      const [settings, dispatch] = useSettings()
       return (
         <div
           data-testid="component"
@@ -187,8 +183,7 @@ describe('useSettings hook', () => {
   it('should throw error if no context provider provided', () => {
     function WrappedComponentNew() {
       jest.spyOn(console, 'error').mockImplementation(() => {})
-      const settings = useSettingsData()
-      const dispatch = useSettingsDispatch()
+      const [settings, dispatch] = useSettings()
       expect(settings).toThrowError()
       return (
         <div
