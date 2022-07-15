@@ -4,43 +4,42 @@ import ModalRow from './ModalRow'
 import TextInput from '../Inputs/TextInput'
 import Toggle from '../Toggles/Toggle'
 import { DayDropdown, HourDropdown } from '../Dropdowns'
-import { ISettings } from '../../../types'
+import { useSettings } from '../../../hooks/useSettings'
 
 type SettingsModalProps = {
   onApply: Function
   onCancel: Function
-  settings: ISettings
-  title: string
 }
 
-function SettingsModal({
-  title,
-  settings,
-  onApply,
-  onCancel,
-}: SettingsModalProps) {
+function SettingsModal({ onApply, onCancel }: SettingsModalProps) {
+  const [settings, dispatch] = useSettings()
+
   const [greetingsText, setGeetingsText] = useState(settings.greetingsText)
   const [day, setDay] = useState(settings.day)
   const [hour, setHour] = useState(settings.hour)
-  const [useSystemTheme, setuUseSystemTheme] = useState(settings.useSystemTheme)
+  const [useSystemTheme, setUseSystemTheme] = useState(settings.useSystemTheme)
 
   const handleApply = () => {
     if (greetingsText.trim().length > 0) {
-      onApply({
-        greetingsText,
-        day,
-        hour,
-        useSystemTheme,
+      dispatch({
+        type: 'setSettings',
+        payload: {
+          greetingsText,
+          day,
+          hour,
+          useSystemTheme,
+        },
       })
+      onApply()
     }
   }
 
   const handleToggleChange = () => {
-    setuUseSystemTheme((oldValue) => !oldValue)
+    setUseSystemTheme((oldValue) => !oldValue)
   }
 
   return (
-    <Modal title={title} onApply={handleApply} onCancel={onCancel}>
+    <Modal title="Settings" onApply={handleApply} onCancel={onCancel}>
       <section
         data-testid="settings-modal"
         className="flex flex-col border-y py-2 text-xl font-thin text-slate-600 dark:text-gray-400"

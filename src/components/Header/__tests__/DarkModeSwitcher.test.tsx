@@ -1,87 +1,99 @@
 import DarkModeSwitcher from '../DarkModeSwitcher'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { useSettingsData, useSettingsDispatch } from '../../../store/Settings'
+import { useSettings } from '../../../hooks/useSettings'
 
-jest.mock('../../../store/Settings')
+jest.mock('../../../hooks/useSettings')
 
 describe('DarkModeSwitcher', () => {
   const handleApply = jest.fn()
-  const mockedUseSettingsData = jest.mocked(useSettingsData)
-  const mockedUseSettingsDispatch = jest.mocked(useSettingsDispatch)
+  const mockedUseSettings = jest.mocked(useSettings)
 
   beforeEach(() => {
     handleApply.mockClear()
-    mockedUseSettingsData.mockClear()
-    mockedUseSettingsDispatch.mockClear()
+    mockedUseSettings.mockClear()
   })
 
   it('should be in the document', () => {
-    mockedUseSettingsData.mockImplementation(() => ({
-      useSystemTheme: false,
-      theme: 'light',
-      greetingsText: 'sample',
-      day: 5,
-      hour: 18,
-      isFirstLoad: false,
-    }))
+    mockedUseSettings.mockImplementation(() => [
+      {
+        useSystemTheme: false,
+        theme: 'light',
+        greetingsText: 'sample',
+        day: 5,
+        hour: 18,
+        isFirstLoad: false,
+      },
+      handleApply,
+    ])
     render(<DarkModeSwitcher />)
     const toggle = screen.getByRole('checkbox')
     expect(toggle).toBeInTheDocument()
   })
 
   it('shouldn not be in the document', () => {
-    mockedUseSettingsData.mockImplementation(() => ({
-      useSystemTheme: true,
-      theme: 'light',
-      greetingsText: 'sample',
-      day: 5,
-      hour: 18,
-      isFirstLoad: false,
-    }))
+    mockedUseSettings.mockImplementation(() => [
+      {
+        useSystemTheme: true,
+        theme: 'light',
+        greetingsText: 'sample',
+        day: 5,
+        hour: 18,
+        isFirstLoad: false,
+      },
+      handleApply,
+    ])
     render(<DarkModeSwitcher />)
     const toggle = screen.queryByRole('checkbox')
     expect(toggle).not.toBeInTheDocument()
   })
 
   it('should be turned off', () => {
-    mockedUseSettingsData.mockImplementation(() => ({
-      useSystemTheme: false,
-      theme: 'light',
-      greetingsText: 'sample',
-      day: 5,
-      hour: 18,
-      isFirstLoad: false,
-    }))
+    mockedUseSettings.mockImplementation(() => [
+      {
+        useSystemTheme: false,
+        theme: 'light',
+        greetingsText: 'sample',
+        day: 5,
+        hour: 18,
+        isFirstLoad: false,
+      },
+      handleApply,
+    ])
     render(<DarkModeSwitcher />)
     const toggle = screen.getByRole('checkbox')
     expect(toggle).not.toBeChecked()
   })
 
   it('should be turned on', () => {
-    mockedUseSettingsData.mockImplementation(() => ({
-      useSystemTheme: false,
-      theme: 'dark',
-      greetingsText: 'sample',
-      day: 5,
-      hour: 18,
-      isFirstLoad: false,
-    }))
+    mockedUseSettings.mockImplementation(() => [
+      {
+        useSystemTheme: false,
+        theme: 'dark',
+        greetingsText: 'sample',
+        day: 5,
+        hour: 18,
+        isFirstLoad: false,
+      },
+      handleApply,
+    ])
     render(<DarkModeSwitcher />)
     const toggle = screen.getByRole('checkbox')
     expect(toggle).toBeChecked()
   })
 
   it('should apply light theme on click', async () => {
-    mockedUseSettingsData.mockImplementation(() => ({
-      useSystemTheme: false,
-      theme: 'dark',
-      greetingsText: 'sample',
-      day: 5,
-      hour: 18,
-      isFirstLoad: false,
-    }))
-    mockedUseSettingsDispatch.mockImplementation(() => handleApply)
+    mockedUseSettings.mockImplementation(() => [
+      {
+        useSystemTheme: false,
+        theme: 'dark',
+        greetingsText: 'sample',
+        day: 5,
+        hour: 18,
+        isFirstLoad: false,
+      },
+      handleApply,
+    ])
     render(<DarkModeSwitcher />)
     const toggle = screen.getByRole('checkbox')
     userEvent.click(toggle)
@@ -89,15 +101,17 @@ describe('DarkModeSwitcher', () => {
   })
 
   it('should apply dark theme on click', async () => {
-    mockedUseSettingsData.mockImplementation(() => ({
-      useSystemTheme: false,
-      theme: 'light',
-      greetingsText: 'sample',
-      day: 5,
-      hour: 18,
-      isFirstLoad: false,
-    }))
-    mockedUseSettingsDispatch.mockImplementation(() => handleApply)
+    mockedUseSettings.mockImplementation(() => [
+      {
+        useSystemTheme: false,
+        theme: 'light',
+        greetingsText: 'sample',
+        day: 5,
+        hour: 18,
+        isFirstLoad: false,
+      },
+      handleApply,
+    ])
     render(<DarkModeSwitcher />)
     const toggle = screen.getByRole('checkbox')
     userEvent.click(toggle)

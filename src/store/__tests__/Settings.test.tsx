@@ -1,10 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import {
-  useSettingsData,
-  useSettingsDispatch,
-  SettingsContextProvider,
-} from '../Settings'
+import { SettingsContextProvider } from '../Settings'
+import { useSettingsData, useSettingsDispatch } from '../../hooks/useSettings'
 import { loadSettings, writeSettings } from '../../utils/dataAdapter'
 import React from 'react'
 
@@ -19,7 +16,7 @@ const WrappedComponent = () => {
       <button
         onClick={() =>
           dispatch({
-            type: 'set',
+            type: 'setSettings',
             payload: {
               hour: 19,
               day: 4,
@@ -30,6 +27,19 @@ const WrappedComponent = () => {
         }
       >
         Apply
+      </button>
+      <button
+        onClick={() =>
+          dispatch({
+            type: 'setInitialSettings',
+            payload: {
+              hour: 20,
+              day: 6,
+            },
+          })
+        }
+      >
+        Apply Initial
       </button>
     </>
   )
@@ -101,7 +111,7 @@ describe('Settings context provider', () => {
         <WrappedComponent />
       </SettingsContextProvider>
     )
-    userEvent.click(screen.getByRole('button', { name: /apply/i }))
+    userEvent.click(screen.getByRole('button', { name: 'Apply' }))
     expect(loadSettings).toHaveBeenCalledTimes(1)
     expect(writeSettings).toHaveBeenCalledWith({
       hour: 19,
@@ -113,191 +123,30 @@ describe('Settings context provider', () => {
     })
   })
 
-  it('should write alternative settings', async () => {
-    function WrappedComponentNew() {
-      const settings = useSettingsData()
-      const dispatch = useSettingsDispatch()
-      return (
-        <>
-          <div>{JSON.stringify(settings, null, '\t')}</div>
-          <button
-            onClick={() =>
-              dispatch({
-                type: 'setTheme',
-                payload: 'dark',
-              })
-            }
-          >
-            Apply
-          </button>
-        </>
-      )
-    }
+  it('should write startup settings', async () => {
     mockedLoadSettings.mockImplementation(() => ({
       day: 6,
       hour: 18,
       greetingsText: 'Hello',
       theme: 'light',
-      useSystemTheme: true,
+      useSystemTheme: false,
       isFirstLoad: true,
     }))
 
     render(
       <SettingsContextProvider>
-        <WrappedComponentNew />
+        <WrappedComponent />
       </SettingsContextProvider>
     )
-    userEvent.click(screen.getByRole('button', { name: /apply/i }))
+    userEvent.click(screen.getByRole('button', { name: 'Apply Initial' }))
     expect(loadSettings).toHaveBeenCalledTimes(1)
     expect(writeSettings).toHaveBeenCalledWith({
-      hour: 18,
+      hour: 20,
       day: 6,
       greetingsText: 'Hello',
-      theme: 'dark',
-      useSystemTheme: true,
+      theme: 'light',
+      useSystemTheme: false,
       isFirstLoad: true,
     })
-  })
-
-  it('should change theme', async () => {
-    function WrappedComponentNew() {
-      const settings = useSettingsData()
-      const dispatch = useSettingsDispatch()
-      return (
-        <input
-          type="checkbox"
-          checked={settings.theme === 'dark'}
-          onChange={() =>
-            dispatch({
-              type: 'setTheme',
-              payload: 'dark',
-            })
-          }
-        ></input>
-      )
-    }
-    mockedLoadSettings.mockImplementation(() => ({
-      hour: 18,
-      day: 6,
-      greetingsText: 'Hello',
-      theme: 'dark',
-      useSystemTheme: true,
-      isFirstLoad: true,
-    }))
-
-    render(
-      <SettingsContextProvider>
-        <WrappedComponentNew />
-      </SettingsContextProvider>
-    )
-    const checkbox = screen.getByRole('checkbox')
-    userEvent.click(checkbox)
-    expect(checkbox).toBeChecked()
-  })
-
-  it('should change all settings', async () => {
-    function WrappedComponentNew() {
-      const settings = useSettingsData()
-      const dispatch = useSettingsDispatch()
-      return (
-        <div
-          data-testid="component"
-          onClick={() =>
-            dispatch({
-              type: 'set',
-              payload: {
-                hour: 18,
-                day: 6,
-                greetingsText: 'Hello',
-                useSystemTheme: true,
-              },
-            })
-          }
-        >
-          {JSON.stringify(settings)}
-        </div>
-      )
-    }
-    mockedLoadSettings.mockImplementation(() => ({
-      hour: 10,
-      day: 3,
-      greetingsText: 'sample',
-      theme: 'dark',
-      useSystemTheme: false,
-      isFirstLoad: false,
-    }))
-
-    render(
-      <SettingsContextProvider>
-        <WrappedComponentNew />
-      </SettingsContextProvider>
-    )
-    const component = screen.getByTestId('component')
-    userEvent.click(component)
-    expect(component).toHaveTextContent(
-      '{"hour":18,"day":6,"greetingsText":"Hello","theme":"dark","useSystemTheme":true,"isFirstLoad":false}'
-    )
-  })
-
-  it('should change first load settings', () => {
-    function WrappedComponentNew() {
-      const settings = useSettingsData()
-      const dispatch = useSettingsDispatch()
-      return (
-        <div
-          data-testid="component"
-          onClick={() =>
-            dispatch({
-              type: 'setFirstLoad',
-              payload: false,
-            })
-          }
-        >
-          {JSON.stringify(settings)}
-        </div>
-      )
-    }
-    mockedLoadSettings.mockImplementation(() => ({
-      hour: 10,
-      day: 3,
-      greetingsText: 'sample',
-      theme: 'dark',
-      useSystemTheme: false,
-      isFirstLoad: true,
-    }))
-
-    render(
-      <SettingsContextProvider>
-        <WrappedComponentNew />
-      </SettingsContextProvider>
-    )
-    const component = screen.getByTestId('component')
-    userEvent.click(component)
-    expect(component).toHaveTextContent(
-      '{"hour":10,"day":3,"greetingsText":"sample","theme":"dark","useSystemTheme":false,"isFirstLoad":false}'
-    )
-  })
-
-  it('should throw error if no context provider provided', () => {
-    function WrappedComponentNew() {
-      jest.spyOn(console, 'error').mockImplementation(() => {})
-      const settings = useSettingsData()
-      const dispatch = useSettingsDispatch()
-      expect(settings).toThrowError()
-      return (
-        <div
-          data-testid="component"
-          onClick={() =>
-            dispatch({
-              type: 'setFirstLoad',
-              payload: false,
-            })
-          }
-        >
-          {JSON.stringify(settings)}
-        </div>
-      )
-    }
-    expect(() => render(<WrappedComponentNew />)).toThrowError()
   })
 })

@@ -31,7 +31,7 @@ function Modal({
     }
   }, [])
 
-  const handleButtonClick: MouseEventHandler<HTMLButtonElement> = () => {
+  const handleCancelClick: MouseEventHandler<HTMLButtonElement> = (): void => {
     onCancel && onCancel()
   }
 
@@ -61,7 +61,7 @@ function Modal({
             }`}
           >
             <Button onClick={onApply} title="Apply" />
-            {onCancel && <Button onClick={handleButtonClick} title="Cancel" />}
+            {onCancel && <Button onClick={handleCancelClick} title="Cancel" />}
           </div>
         </Panel>
       </div>

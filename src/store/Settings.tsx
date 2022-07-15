@@ -19,7 +19,12 @@ const actualSettings = (settings: ISettings) => {
 
 const settingsReducer = (state: ISettings, action: Action) => {
   switch (action.type) {
-    case 'set': {
+    case 'setSettings': {
+      const newSettings = action.payload
+      writeSettings({ ...state, ...newSettings })
+      return { ...state, ...newSettings }
+    }
+    case 'setInitialSettings': {
       const newSettings = action.payload
       writeSettings({ ...state, ...newSettings })
       return { ...state, ...newSettings }
@@ -57,24 +62,4 @@ const SettingsContextProvider = ({ children }: ProviderProps) => {
   )
 }
 
-const useSettingsData = () => {
-  const context = React.useContext(SettingsDataContext)
-  if (context === undefined) {
-    throw new Error(
-      'useSettingsData must be used within a SettingsContextProvider'
-    )
-  }
-  return context
-}
-
-const useSettingsDispatch = () => {
-  const context = React.useContext(SettingsDispatchContext)
-  if (context === undefined) {
-    throw new Error(
-      'useSettingsDispatch must be used within a SettingsContextProvider'
-    )
-  }
-  return context
-}
-
-export { SettingsContextProvider, useSettingsData, useSettingsDispatch }
+export { SettingsContextProvider, SettingsDataContext, SettingsDispatchContext }

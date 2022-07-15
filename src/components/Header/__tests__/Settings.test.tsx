@@ -1,14 +1,13 @@
 import Settings from '../Settings'
 import { render, screen } from '@testing-library/react'
-import { useSettingsData, useSettingsDispatch } from '../../../store/Settings'
+import { useSettings } from '../../../hooks/useSettings'
 import userEvent from '@testing-library/user-event'
 
-jest.mock('../../../store/Settings')
+jest.mock('../../../hooks/useSettings')
 
 describe('Settings component', () => {
   const handleApply = jest.fn()
-  const mockedUseSettingsData = jest.mocked(useSettingsData)
-  const mockedUseSettingsDispatch = jest.mocked(useSettingsDispatch)
+  const mockedUseSettings = jest.mocked(useSettings)
 
   beforeAll(() => {
     const modalRoot = document.createElement('div')
@@ -17,21 +16,22 @@ describe('Settings component', () => {
   })
 
   beforeEach(() => {
-    mockedUseSettingsData.mockImplementation(() => ({
-      greetingsText: 'sample',
-      day: 5,
-      hour: 18,
-      theme: 'light',
-      useSystemTheme: false,
-      isFirstLoad: false,
-    }))
-    mockedUseSettingsDispatch.mockImplementation(() => handleApply)
+    mockedUseSettings.mockImplementation(() => [
+      {
+        greetingsText: 'sample',
+        day: 5,
+        hour: 18,
+        theme: 'light',
+        useSystemTheme: false,
+        isFirstLoad: false,
+      },
+      handleApply,
+    ])
   })
 
   afterEach(() => {
     handleApply.mockClear()
-    mockedUseSettingsData.mockClear()
-    mockedUseSettingsDispatch.mockClear()
+    mockedUseSettings.mockClear()
   })
 
   it('should render settigns icon', () => {

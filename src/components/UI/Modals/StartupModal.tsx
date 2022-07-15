@@ -1,22 +1,29 @@
 import Modal from './Modal'
 import { DayDropdown, HourDropdown } from '../../UI/Dropdowns'
 import { useState } from 'react'
-import { ISettings } from '../../../types'
+import { ITargetDayTime } from '../../../types'
+import { useSettings } from '../../../hooks/useSettings'
 
-type StartupModalProps = {
-  onApply: Function
-  settings: ISettings
-  title: string
-}
-
-function StartupModal({ title, settings, onApply }: StartupModalProps) {
+function StartupModal() {
+  const [settings, dispatch] = useSettings()
   const [day, setDay] = useState(settings.day)
   const [hour, setHour] = useState(settings.hour)
 
+  const handleInitialSettings = (initialSettings: ITargetDayTime): void => {
+    dispatch({
+      type: 'setInitialSettings',
+      payload: { ...initialSettings },
+    })
+    dispatch({
+      type: 'setFirstLoad',
+      payload: false,
+    })
+  }
+
   return (
     <Modal
-      title={title}
-      onApply={() => onApply({ day, hour })}
+      title="Please choose"
+      onApply={() => handleInitialSettings({ day, hour })}
       isButtonsCentered={true}
       isHeadingCentered={true}
     >

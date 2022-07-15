@@ -1,7 +1,19 @@
 const { test, expect } = require('@playwright/test')
+const path = require('path')
+const sinon = require('sinon')
 
 test.describe('Application Theme', () => {
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page, context }) => {
+    // Install Sinon in all the pages in the context
+    await context.addInitScript({
+      path: path.join(__dirname, '../../', './node_modules/sinon/pkg/sinon.js'),
+    })
+    // Auto-enable sinon right away
+    await context.addInitScript(() => {
+      window.__clock = sinon.useFakeTimers({
+        now: new Date('2022-06-06 13:31:22'),
+      })
+    })
     await page.goto('/')
   })
 
@@ -85,7 +97,7 @@ test.describe('Application Theme', () => {
 
     await test.step('should remain light theme after page reload', async () => {
       await page.reload()
-      expect(page.locator('html')).not.toHaveClass('dark')
+      await expect(page.locator('html')).not.toHaveClass('dark')
     })
 
     await test.step('should change system theme to dark', async () => {
