@@ -1,5 +1,7 @@
+import React from 'react'
 import Digit from './Digit'
 import Separator from './Separator'
+import DigitLabel from './DigitLabel'
 
 type DigitblockProps = {
   label: string
@@ -11,9 +13,7 @@ function Digitblock({ label, digit, separator }: DigitblockProps) {
   return (
     <>
       <div className="flex w-24 flex-col">
-        <div className="flex h-8 items-center justify-center text-lg font-thin uppercase">
-          {label}
-        </div>
+        <DigitLabel label={label} />
         <Digit digit={digit} />
       </div>
       {separator && <Separator symbol={separator} />}
@@ -21,4 +21,4 @@ function Digitblock({ label, digit, separator }: DigitblockProps) {
   )
 }
 
-export default Digitblock
+export default React.memo(Digitblock)
