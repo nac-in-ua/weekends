@@ -1,3 +1,5 @@
+import React from 'react'
+
 function Actiontext() {
   return (
     <h2 className="text-center text-3xl font-thin uppercase">
@@ -6,4 +8,4 @@ function Actiontext() {
   )
 }
 
-export default Actiontext
+export default React.memo(Actiontext)

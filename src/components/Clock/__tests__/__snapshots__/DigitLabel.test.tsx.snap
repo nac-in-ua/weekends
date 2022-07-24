@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DigitLabel should render label 1`] = `
+<div>
+  <div
+    class="flex h-8 items-center justify-center text-lg font-thin uppercase"
+  >
+    my label
+  </div>
+</div>
+`;
